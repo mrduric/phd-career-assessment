@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PhD Career Assessment</title>
+
+  <!-- Open Graph / Social Preview -->
+  <meta property="og:title" content="PhD Career Assessment" />
+  <meta property="og:description" content="Which career path is right for your PhD? A 3-minute assessment that maps how humanities & social science PhDs think and work to career paths beyond academia." />
+  <meta property="og:type" content="website" />
+  <meta name="description" content="Which career path is right for your PhD? A 3-minute assessment that maps how humanities & social science PhDs think and work to career paths beyond academia." />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="PhD Career Assessment" />
+  <meta name="twitter:description" content="Which career path is right for your PhD? Maps how humanities & social science PhDs think to career paths beyond academia." />
+
+  <!-- Favicon (mortar board emoji as SVG) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      background: #FAFAF7;
+      font-family: 'DM Sans', sans-serif;
+      color: #1a1a1a;
+      -webkit-font-smoothing: antialiased;
+    }
+    .grain {
+      position: fixed; inset: 0; opacity: 0.03; pointer-events: none; z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    }
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+      position: relative;
+      z-index: 1;
+    }
+    .label {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.14em;
+      text-transform: uppercase; color: #C4956A; margin-bottom: 16px;
+    }
+    .section-label {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: #8B7355; margin-bottom: 12px; margin-top: 0;
+    }
+    .header-label {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: #8B7355;
+    }
+    h1 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: clamp(36px, 7vw, 52px);
+      font-weight: 400; line-height: 1.05;
+      margin: 0 0 24px 0;
+    }
+    h2 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: clamp(24px, 5vw, 32px);
+      font-weight: 400; line-height: 1.25;
+      margin: 0 0 36px 0;
+    }
+    .callout {
+      background: #F0EBE3; border-left: 3px solid #C4956A;
+      padding: 20px 24px; border-radius: 0 8px 8px 0;
+    }
+    .callout p { font-size: 15px; line-height: 1.6; color: #5a5040; margin: 0; }
+    .btn {
+      background: #1a1a1a; color: #FAFAF7; border: none;
+      padding: 18px 48px; font-size: 15px; font-weight: 600;
+      letter-spacing: 0.04em; border-radius: 60px; cursor: pointer;
+      transition: all 0.3s ease; font-family: 'DM Sans', sans-serif;
+    }
+    .btn:hover { background: #333; transform: translateY(-1px); }
+    .btn:focus-visible { outline: 2px solid #C4956A; outline-offset: 2px; }
+    .btn-small { padding: 16px 36px; font-size: 14px; }
+
+    /* Progress bar */
+    .progress-track {
+      height: 2px; background: #E8E4DD; border-radius: 2px;
+      margin-bottom: 48px; margin-top: 24px; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; background: #C4956A; border-radius: 2px;
+      transition: width 0.5s ease;
+    }
+
+    /* Option buttons */
+    .option-btn {
+      background: #fff; color: #1a1a1a;
+      border: 1.5px solid #E0DBD2; padding: 18px 24px;
+      font-size: 15px; line-height: 1.5; border-radius: 12px;
+      cursor: pointer; text-align: left; width: 100%;
+      transition: all 0.2s ease; font-family: 'DM Sans', sans-serif;
+      display: flex; align-items: baseline; gap: 14px;
+    }
+    .option-btn:hover { border-color: #C4956A; background: #FDF9F4; }
+    .option-btn.selected { background: #1a1a1a; color: #FAFAF7; border-color: #1a1a1a; }
+    .option-btn.selected .option-letter { color: #FAFAF7; border-color: rgba(255,255,255,0.3); }
+    .option-btn:focus-visible { outline: 2px solid #C4956A; outline-offset: 2px; }
+    .option-letter {
+      flex-shrink: 0; width: 24px; height: 24px; border-radius: 6px;
+      border: 1.5px solid #D9D0C3; display: flex; align-items: center;
+      justify-content: center; font-size: 12px; font-weight: 600;
+      color: #aaa; transition: all 0.2s ease;
+    }
+
+    /* Back button */
+    .back-btn {
+      background: none; border: none; color: #aaa; font-size: 13px;
+      cursor: pointer; padding: 4px 0; font-family: 'DM Sans', sans-serif;
+      transition: color 0.2s; display: none; align-items: center; gap: 6px;
+    }
+    .back-btn:hover { color: #1a1a1a; }
+    .back-btn.visible { display: flex; }
+
+    /* Result pills */
+    .pill {
+      background: #fff; border: 1px solid #E0DBD2;
+      padding: 8px 16px; border-radius: 60px;
+      font-size: 13px; color: #555; display: inline-block;
+      cursor: pointer; transition: all 0.2s ease; position: relative;
+    }
+    .pill:hover { border-color: #C4956A; color: #1a1a1a; }
+
+    /* Role popup */
+    .role-popup {
+      position: fixed; left: 50%; transform: translateX(-50%);
+      bottom: 24px; width: calc(100% - 48px); max-width: 400px;
+      background: #1a1a1a; color: #FAFAF7; border-radius: 14px;
+      padding: 20px 24px; z-index: 100;
+      animation: popUp 0.25s ease-out;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    }
+    .role-popup h4 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 18px; font-weight: 400; margin: 0 0 8px 0;
+    }
+    .role-popup p {
+      font-size: 14px; line-height: 1.6; color: #bbb; margin: 0;
+    }
+    .role-popup-close {
+      position: absolute; top: 12px; right: 16px;
+      background: none; border: none; color: #777; font-size: 18px;
+      cursor: pointer; padding: 4px; line-height: 1;
+    }
+    .role-popup-close:hover { color: #fff; }
+    @keyframes popUp {
+      from { opacity: 0; transform: translateX(-50%) translateY(12px); }
+      to { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+
+    /* Score bar */
+    .score-bar-track {
+      height: 6px; background: #F0EBE3; border-radius: 3px; overflow: hidden;
+    }
+    .score-bar-fill {
+      height: 100%; border-radius: 3px; transition: width 0.8s ease;
+    }
+
+    /* Animations */
+    .fade-up { animation: fadeUp 0.6s ease-out; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .question-area {
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .question-area.fading {
+      opacity: 0; transform: translateY(8px);
+    }
+
+    /* Share buttons */
+    .share-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      color: #fff; border: none; padding: 12px 20px;
+      font-size: 13px; font-weight: 600; border-radius: 60px;
+      cursor: pointer; font-family: 'DM Sans', sans-serif;
+      transition: opacity 0.2s;
+    }
+    .share-btn:hover { opacity: 0.85; }
+
+    /* Screen visibility */
+    .screen { display: none; }
+    .screen.active { display: block; }
+  </style>
+</head>
+<body>
+  <div class="grain"></div>
+  <div class="container">
+    <!-- Header -->
+    <div style="margin-bottom: 8px;">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 4px;">
+        <span class="header-label">PhD Career Assessment</span>
+        <span id="header-suffix" style="font-size: 11px; color: #999; letter-spacing: 0.05em; display: none;">/ Assessment</span>
+      </div>
+    </div>
+
+    <!-- INTRO SCREEN -->
+    <div id="screen-intro" class="screen active fade-up">
+      <div style="margin-bottom: 48px; margin-top: 32px;">
+        <p class="label">Career Assessment</p>
+        <h1>Which Career Path<br><em>Is Right for Your PhD?</em></h1>
+        <p style="font-size: 18px; font-style: italic; color: #8B7355; margin: 0 0 20px 0; font-family: 'Instrument Serif', Georgia, serif;">
+          Your skills are more transferable than you think.
+        </p>
+        <p style="font-size: 17px; line-height: 1.65; color: #555; max-width: 480px;">
+          This assessment maps how you think, work, and solve problems to the career path where your humanities &amp; social science training will have the most impact.
+        </p>
+      </div>
+
+      <div class="callout" style="margin-bottom: 48px;">
+        <p>There are no right answers. Choose the option that reflects how you <em>actually</em> work, not how you think you should work.</p>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 32px; margin-bottom: 48px; font-size: 13px; color: #888; flex-wrap: wrap;">
+        <span><strong style="color: #1a1a1a">10</strong> questions</span>
+        <span><strong style="color: #1a1a1a">3 min</strong> to complete</span>
+        <span><strong style="color: #1a1a1a">4</strong> orientations</span>
+      </div>
+
+      <button class="btn" onclick="startQuiz()">Begin Assessment &rarr;</button>
+    </div>
+
+    <!-- QUIZ SCREEN -->
+    <div id="screen-quiz" class="screen">
+      <div class="progress-track">
+        <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
+      </div>
+      <div id="question-area" class="question-area">
+        <div style="margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
+          <span id="q-counter" style="font-size: 12px; color: #aaa; font-weight: 500;"></span>
+          <button id="back-btn" class="back-btn" onclick="goBack()">&larr; Back</button>
+        </div>
+        <h2 id="q-text"></h2>
+        <div id="q-options" style="display: flex; flex-direction: column; gap: 12px;"></div>
+      </div>
+    </div>
+
+    <!-- RESULT SCREEN -->
+    <div id="screen-result" class="screen"></div>
+  </div>
+
+<script>
+const QUESTIONS = [
+  {
+    id: 1,
+    question: "When you're deep in your research, what energizes you most?",
+    options: [
+      { text: "Understanding why people behave the way they do", scores: { researcher: 3, strategist: 1, communicator: 0, builder: 1 } },
+      { text: "Finding the hidden pattern that ties everything together", scores: { researcher: 1, strategist: 3, communicator: 1, builder: 0 } },
+      { text: "Crafting the narrative that makes the argument land", scores: { researcher: 0, strategist: 1, communicator: 3, builder: 0 } },
+      { text: "Figuring out what to actually do with what you've found", scores: { researcher: 1, strategist: 0, communicator: 0, builder: 3 } },
+    ],
+  },
+  {
+    id: 2,
+    question: "Your advisor asks you to present your work to a non-academic audience. You instinctively\u2026",
+    options: [
+      { text: "Lead with a human story from your fieldwork", scores: { researcher: 3, strategist: 0, communicator: 2, builder: 0 } },
+      { text: "Build a framework they can apply to their own problems", scores: { researcher: 0, strategist: 3, communicator: 0, builder: 1 } },
+      { text: "Create a clear, compelling slide deck with a throughline", scores: { researcher: 0, strategist: 1, communicator: 3, builder: 0 } },
+      { text: "Focus on what's actionable \u2014 what should they do differently?", scores: { researcher: 0, strategist: 1, communicator: 0, builder: 3 } },
+    ],
+  },
+  {
+    id: 3,
+    question: "A friend is starting a nonprofit and asks for your help. What do you naturally gravitate toward?",
+    options: [
+      { text: "Talking to the community they want to serve", scores: { researcher: 3, strategist: 0, communicator: 1, builder: 1 } },
+      { text: "Mapping the landscape \u2014 who else is doing this and what's the gap?", scores: { researcher: 0, strategist: 3, communicator: 0, builder: 1 } },
+      { text: "Writing the mission statement, shaping the story", scores: { researcher: 0, strategist: 0, communicator: 3, builder: 0 } },
+      { text: "Designing the programs and figuring out how to measure impact", scores: { researcher: 1, strategist: 0, communicator: 0, builder: 3 } },
+    ],
+  },
+  {
+    id: 4,
+    question: "What kind of feedback on your dissertation stings the most?",
+    options: [
+      { text: "\u201CYou didn\u2019t talk to enough people\u201D", scores: { researcher: 3, strategist: 0, communicator: 0, builder: 1 } },
+      { text: "\u201CThe so-what isn\u2019t clear\u201D", scores: { researcher: 0, strategist: 3, communicator: 1, builder: 1 } },
+      { text: "\u201CThe writing doesn\u2019t flow\u201D", scores: { researcher: 0, strategist: 0, communicator: 3, builder: 0 } },
+      { text: "\u201CThis doesn\u2019t have real-world implications\u201D", scores: { researcher: 0, strategist: 1, communicator: 0, builder: 3 } },
+    ],
+  },
+  {
+    id: 5,
+    question: "You discover a podcast about post-PhD careers. Which episode do you click first?",
+    options: [
+      { text: "\u201CHow Netflix Uses Research to Understand Its Users\u201D", scores: { researcher: 3, strategist: 1, communicator: 0, builder: 0 } },
+      { text: "\u201CFrom Dissertation to Strategy Deck: A PhD in Consulting\u201D", scores: { researcher: 0, strategist: 3, communicator: 0, builder: 1 } },
+      { text: "\u201CThe Content Strategist Who Shapes How Millions Think\u201D", scores: { researcher: 0, strategist: 0, communicator: 3, builder: 0 } },
+      { text: "\u201CHow a Sociologist Ended Up Running Programs at a Global NGO\u201D", scores: { researcher: 0, strategist: 0, communicator: 0, builder: 3 } },
+    ],
+  },
+  {
+    id: 6,
+    question: "Your favorite seminar paper to teach or discuss is one that\u2026",
+    options: [
+      { text: "Uses ethnographic detail to reveal something unexpected about everyday life", scores: { researcher: 3, strategist: 0, communicator: 2, builder: 0 } },
+      { text: "Reframes an entire debate with a new theoretical lens", scores: { researcher: 0, strategist: 3, communicator: 0, builder: 1 } },
+      { text: "Is beautifully written \u2014 the argument is inseparable from the prose", scores: { researcher: 0, strategist: 0, communicator: 3, builder: 0 } },
+      { text: "Changed how people actually do things \u2014 it had real impact", scores: { researcher: 0, strategist: 1, communicator: 0, builder: 3 } },
+    ],
+  },
+  {
+    id: 7,
+    question: "When you hit a wall in your work, your go-to move is to\u2026",
+    options: [
+      { text: "Talk to someone \u2014 a participant, a colleague, anyone with a different perspective", scores: { researcher: 3, strategist: 1, communicator: 0, builder: 1 } },
+      { text: "Step back and rethink the framing entirely", scores: { researcher: 0, strategist: 3, communicator: 1, builder: 0 } },
+      { text: "Rewrite from scratch \u2014 clarity comes through writing", scores: { researcher: 0, strategist: 0, communicator: 3, builder: 0 } },
+      { text: "Break it into smaller pieces and just start doing something", scores: { researcher: 0, strategist: 0, communicator: 0, builder: 3 } },
+    ],
+  },
+  {
+    id: 8,
+    question: "Which of these work environments sounds most appealing?",
+    options: [
+      { text: "A product team where my insights directly shape what gets built", scores: { researcher: 3, strategist: 1, communicator: 0, builder: 0 } },
+      { text: "A fast-paced environment where I tackle a new strategic problem every few weeks", scores: { researcher: 0, strategist: 3, communicator: 0, builder: 1 } },
+      { text: "A creative team where I own the voice and the story", scores: { researcher: 0, strategist: 0, communicator: 3, builder: 0 } },
+      { text: "A mission-driven org where I can see the direct impact of my work on people's lives", scores: { researcher: 1, strategist: 0, communicator: 0, builder: 3 } },
+    ],
+  },
+  {
+    id: 9,
+    question: "An organization wants to expand into a new community. What\u2019s your instinct?",
+    options: [
+      { text: "Go talk to people in that community \u2014 understand their world first", scores: { researcher: 3, strategist: 0, communicator: 1, builder: 1 } },
+      { text: "Analyze the landscape \u2014 what's been tried, what works, what's the angle?", scores: { researcher: 0, strategist: 3, communicator: 0, builder: 1 } },
+      { text: "Figure out how to tell a story that resonates in that context", scores: { researcher: 0, strategist: 0, communicator: 3, builder: 0 } },
+      { text: "Design a pilot program and figure out how to learn from it", scores: { researcher: 1, strategist: 1, communicator: 0, builder: 3 } },
+    ],
+  },
+  {
+    id: 10,
+    question: "Be honest \u2014 which PhD skill are you secretly most proud of?",
+    options: [
+      { text: "I can build rapport with anyone and get them to open up", scores: { researcher: 3, strategist: 0, communicator: 1, builder: 1 } },
+      { text: "I can synthesize a massive literature into a coherent argument", scores: { researcher: 0, strategist: 3, communicator: 1, builder: 0 } },
+      { text: "I can write in a way that makes complex ideas accessible", scores: { researcher: 0, strategist: 1, communicator: 3, builder: 0 } },
+      { text: "I can take a messy situation and turn it into a plan", scores: { researcher: 0, strategist: 1, communicator: 0, builder: 3 } },
+    ],
+  },
+];
+
+const RESULTS = {
+  researcher: {
+    title: "The Researcher",
+    emoji: "\uD83D\uDD0D",
+    subtitle: "You study people for a living. Now get paid properly for it.",
+    description: "Your instinct to understand human behavior through direct engagement \u2014 interviews, observation, deep listening \u2014 is a rare and in-demand skill. You already think in terms of meaning-making and lived experience. Industry needs people who can surface what surveys and dashboards miss.",
+    paths: [
+      {
+        name: "UX Researcher",
+        description: "Study users to shape products at tech companies. Your fieldwork methods translate directly.",
+        roles: ["UX Researcher", "Design Researcher", "User Researcher", "Insights Manager"],
+      },
+      {
+        name: "People & Organizational Researcher",
+        description: "Bring social science rigor to workforce and culture questions inside companies.",
+        roles: ["People Analytics Analyst", "Organizational Researcher", "Employee Experience Researcher"],
+      },
+      {
+        name: "Community-Engaged Researcher",
+        description: "Do participatory research with communities at NGOs, foundations, or social enterprises.",
+        roles: ["Community Research Lead", "Participatory Research Consultant", "Impact Researcher"],
+      },
+    ],
+    resources: [
+      { name: "Interviewing Users by Steve Portigal", url: "https://rosenfeldmedia.com/books/interviewing-users-second-edition/" },
+      { name: "Just Enough Research by Erika Hall", url: "https://www.mulebooks.com/just-enough-research" },
+      { name: "Nielsen Norman Group articles", url: "https://www.nngroup.com/articles/" },
+      { name: "Erd\u0151s Institute UX Boot Camp", url: "https://www.erdosinstitute.org/programs" },
+    ],
+    reframe: "Your fieldwork IS a research portfolio. Reframe your methods section as a research plan, your findings as insights, and your implications as recommendations. Whether the audience is a product team or an NGO board, the skill is the same.",
+  },
+  strategist: {
+    title: "The Strategist",
+    emoji: "\u265F\uFE0F",
+    subtitle: "Your ability to reframe problems is worth more than you think.",
+    description: "You don\u2019t just analyze \u2014 you synthesize. Your gift is taking a chaotic landscape of information and producing a clear framework that others can act on. Organizations of every kind need people who can see the big picture and make it legible.",
+    paths: [
+      {
+        name: "Strategy Consultant",
+        description: "Solve high-stakes business problems at consulting firms or as an independent advisor.",
+        roles: ["Associate (consulting)", "Strategy Analyst", "Innovation Consultant", "Research Consultant"],
+      },
+      {
+        name: "Product Manager",
+        description: "Own the vision for a product \u2014 synthesize user needs, business goals, and technical constraints.",
+        roles: ["Product Manager", "Product Strategist", "Technical Program Manager"],
+      },
+    ],
+    resources: [
+      { name: "Case in Point by Marc Cosentino", url: "https://www.amazon.com/Case-Point-12th-Interview-Preparation-ebook/dp/B0CW18Q6KQ" },
+      { name: "Inspired by Marty Cagan", url: "https://www.svpg.com/books/inspired-how-to-create-tech-products-customers-love-2nd-edition/" },
+      { name: "Strategyzer Business Model Canvas", url: "https://www.strategyzer.com/library/the-business-model-canvas" },
+      { name: "Good Strategy Bad Strategy by Richard Rumelt", url: "https://www.amazon.com/Good-Strategy-Bad-Difference-Matters/dp/0307886239" },
+    ],
+    reframe: "Your dissertation defense IS a case presentation. Practice reframing academic arguments as business or organizational recommendations with a clear \"so what\" and concrete next steps.",
+  },
+  communicator: {
+    title: "The Communicator",
+    emoji: "\u270D\uFE0F",
+    subtitle: "You think in narrative. That\u2019s a superpower.",
+    description: "You don\u2019t just write well \u2014 you think about how ideas travel, how audiences receive them, and how to shape understanding through language. Whether the medium is a brand, a curriculum, or a campaign, you know how to make complexity accessible.",
+    paths: [
+      {
+        name: "Content Strategist",
+        description: "Shape how organizations communicate \u2014 from product copy to thought leadership.",
+        roles: ["Content Strategist", "Content Designer", "Editorial Lead", "Brand Strategist"],
+      },
+      {
+        name: "Instructional Designer",
+        description: "Design learning experiences \u2014 your teaching instincts meet industry scale.",
+        roles: ["Instructional Designer", "L&D Specialist", "Curriculum Developer", "Learning Experience Designer"],
+      },
+    ],
+    resources: [
+      { name: "Content Strategy Toolkit by Meghan Casey", url: "https://www.amazon.com/Content-Strategy-Toolkit-Guidelines-Templates/dp/0138059276" },
+      { name: "Design for How People Learn by Julie Dirksen", url: "https://www.amazon.com/Design-People-Learn-Voices-Matter/dp/0134211286" },
+      { name: "Everybody Writes by Ann Handley", url: "https://www.amazon.com/Everybody-Writes-Improved-Go-Ridiculously/dp/1119854164" },
+      { name: "Content Design by Sarah Winters", url: "https://contentdesign.london/shop/content-design-by-sarah-winters-and-rachel-edwards" },
+    ],
+    reframe: "Your academic writing shows rigor. Now build a portfolio that shows range: a blog post, a course outline, a case study, product copy. Show you can write for scanners, not just readers \u2014 and teach, not just tell.",
+  },
+  builder: {
+    title: "The Builder",
+    emoji: "\uD83D\uDE80",
+    subtitle: "You don\u2019t just study the world. You want to change it.",
+    description: "You care about impact more than analysis. Your instinct is to take what you know and make something happen with it \u2014 design a program, launch an initiative, move resources where they matter. You\u2019re drawn to work that\u2019s tangible and mission-driven.",
+    paths: [
+      {
+        name: "Program Manager (NGO / Impact)",
+        description: "Design, run, and evaluate programs at mission-driven organizations.",
+        roles: ["Program Manager", "Program Director", "Impact Officer", "Partnerships Lead"],
+      },
+      {
+        name: "Policy & Research Analyst",
+        description: "Bridge evidence and decision-making at think tanks, government, or advocacy orgs.",
+        roles: ["Policy Analyst", "Research Analyst", "Program Evaluator", "Government Affairs Associate"],
+      },
+      {
+        name: "Community Engagement Lead",
+        description: "Build relationships between organizations and the communities they serve.",
+        roles: ["Community Engagement Director", "Outreach Coordinator", "Civic Engagement Manager"],
+      },
+    ],
+    resources: [
+      { name: "Bridgespan Group resources", url: "https://www.bridgespan.org/insights" },
+      { name: "Idealist career guides", url: "https://www.idealist.org/en/careers/resources" },
+      { name: "Stanford Social Innovation Review", url: "https://ssir.org" },
+      { name: "Lean Impact by Ann Mei Chang", url: "https://www.amazon.com/Lean-Impact-Innovate-Radically-Greater/dp/1119506603" },
+    ],
+    reframe: "Your dissertation shows you can sustain a multi-year project from concept to completion. Reframe that as program design: you identified a need, developed an approach, gathered evidence, and delivered results. That\u2019s exactly what funders and boards want to hear.",
+  },
+};
+
+// State
+let currentQ = 0;
+let scores = { researcher: 0, strategist: 0, communicator: 0, builder: 0 };
+let animating = false;
+let answers = []; // store chosen options for back navigation
+
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+  document.getElementById('header-suffix').style.display = name === 'quiz' ? 'inline' : 'none';
+}
+
+function startQuiz() {
+  currentQ = 0;
+  scores = { researcher: 0, strategist: 0, communicator: 0, builder: 0 };
+  answers = [];
+  animating = false;
+  showScreen('quiz');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = QUESTIONS[currentQ];
+  const progress = (currentQ / QUESTIONS.length) * 100;
+  document.getElementById('progress-fill').style.width = progress + '%';
+  document.getElementById('q-counter').textContent =
+    String(currentQ + 1).padStart(2, '0') + ' / ' + QUESTIONS.length;
+  document.getElementById('q-text').textContent = q.question;
+
+  // Show/hide back button
+  const backBtn = document.getElementById('back-btn');
+  backBtn.className = currentQ > 0 ? 'back-btn visible' : 'back-btn';
+
+  const letters = ['A', 'B', 'C', 'D'];
+  const container = document.getElementById('q-options');
+  container.innerHTML = '';
+  q.options.forEach((option, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="option-letter">${letters[i]}</span><span>${option.text}</span>`;
+    btn.addEventListener('click', () => handleAnswer(option, btn));
+    container.appendChild(btn);
+  });
+
+  const area = document.getElementById('question-area');
+  area.classList.remove('fading');
+}
+
+function handleAnswer(option, btn) {
+  if (animating) return;
+  animating = true;
+
+  // Mark selected
+  document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+
+  // Store answer and add scores
+  answers[currentQ] = option;
+  Object.keys(option.scores).forEach(k => {
+    scores[k] += option.scores[k];
+  });
+
+  setTimeout(() => {
+    const area = document.getElementById('question-area');
+    area.classList.add('fading');
+
+    setTimeout(() => {
+      if (currentQ < QUESTIONS.length - 1) {
+        currentQ++;
+        renderQuestion();
+        animating = false;
+      } else {
+        // Fill progress to 100% before showing result
+        document.getElementById('progress-fill').style.width = '100%';
+        setTimeout(() => showResult(), 500);
+      }
+    }, 300);
+  }, 400);
+}
+
+function goBack() {
+  if (currentQ <= 0 || animating) return;
+  animating = true;
+
+  // Undo the previous answer's scores
+  const prevAnswer = answers[currentQ - 1];
+  if (prevAnswer) {
+    Object.keys(prevAnswer.scores).forEach(k => {
+      scores[k] -= prevAnswer.scores[k];
+    });
+  }
+
+  const area = document.getElementById('question-area');
+  area.classList.add('fading');
+  setTimeout(() => {
+    currentQ--;
+    renderQuestion();
+    animating = false;
+  }, 300);
+}
+
+function showResult() {
+  const topRole = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
+  const result = RESULTS[topRole];
+
+  // Sort scores for bar chart
+  const sorted = Object.entries(scores)
+    .map(([key, value]) => ({ key, value, title: RESULTS[key].title, emoji: RESULTS[key].emoji }))
+    .sort((a, b) => b.value - a.value);
+  const maxScore = Math.max(...sorted.map(s => s.value), 1);
+
+  const el = document.getElementById('screen-result');
+  el.innerHTML = `
+    <div class="fade-up">
+      <div style="margin-top: 32px; margin-bottom: 48px;">
+        <p class="label">Your Result</p>
+        <div style="font-size: 48px; margin-bottom: 8px;">${result.emoji}</div>
+        <h1 style="font-size: clamp(32px, 6vw, 44px); line-height: 1.1; margin-bottom: 12px;">
+          ${result.title}
+        </h1>
+        <p style="font-size: 18px; font-style: italic; color: #8B7355; margin: 0 0 24px 0; font-family: 'Instrument Serif', Georgia, serif;">
+          ${result.subtitle}
+        </p>
+        <p style="font-size: 16px; line-height: 1.7; color: #555; max-width: 540px;">
+          ${result.description}
+        </p>
+      </div>
+
+      <!-- Score breakdown -->
+      <div style="background: #fff; border: 1.5px solid #E8E4DD; border-radius: 16px; padding: 28px 28px 20px; margin-bottom: 36px;">
+        <h3 style="font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #999; margin-top: 0; margin-bottom: 20px;">
+          Your Profile
+        </h3>
+        ${sorted.map((s, i) => `
+          <div style="margin-bottom: 14px;">
+            <div style="margin-bottom: 6px;">
+              <span style="font-size: 14px; font-weight: ${i === 0 ? 600 : 400}; color: ${i === 0 ? '#1a1a1a' : '#777'};">
+                ${s.emoji} ${s.title}
+              </span>
+            </div>
+            <div class="score-bar-track">
+              <div class="score-bar-fill" style="background: ${i === 0 ? '#C4956A' : '#D9D0C3'}; width: ${(s.value / maxScore) * 100}%;"></div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+
+      <!-- Paths within this orientation -->
+      <div style="margin-bottom: 36px;">
+        <h3 style="font-family: 'Instrument Serif', Georgia, serif; font-size: 26px; font-weight: 400; margin-bottom: 24px; margin-top: 0;">
+          Your Paths
+        </h3>
+
+        ${result.paths.map((path, i) => `
+          <div style="background: #fff; border: 1.5px solid #E8E4DD; border-radius: 14px; padding: 24px; margin-bottom: 16px;">
+            <h4 style="font-family: 'Instrument Serif', Georgia, serif; font-size: 20px; font-weight: 400; margin: 0 0 8px 0;">
+              ${path.name}
+            </h4>
+            <p style="font-size: 14px; line-height: 1.6; color: #666; margin: 0 0 14px 0;">
+              ${path.description}
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+              ${path.roles.map(r => `<span class="pill" onclick="showRolePopup('${r.replace(/'/g, "\\\'")}')">${r}</span>`).join('')}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+
+      <!-- Resources & Reframe -->
+      <div style="margin-bottom: 36px;">
+        <div style="margin-bottom: 28px;">
+          <h4 class="section-label">Resources to Explore</h4>
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            ${result.resources.map(r => `<a href="${r.url}" target="_blank" rel="noopener" style="font-size: 14px; color: #8B7355; text-decoration: none; display: block; transition: color 0.2s;"
+              onmouseover="this.style.color='#C4956A'" onmouseout="this.style.color='#8B7355'">&rarr; ${r.name}</a>`).join('')}
+          </div>
+        </div>
+
+        <div class="callout" style="border-radius: 0 12px 12px 0;">
+          <h4 class="section-label" style="color: #8B7355; margin-bottom: 10px;">The PhD Reframe</h4>
+          <p>${result.reframe}</p>
+        </div>
+      </div>
+
+      <!-- Share -->
+      <div style="margin-top: 48px; margin-bottom: 16px;">
+        <h4 class="section-label">Share Your Result</h4>
+        <p style="font-size: 14px; color: #888; margin-bottom: 16px;">Share your result card on social media.</p>
+
+        <!-- Card preview -->
+        <div id="card-preview" style="margin-bottom: 20px;">
+          <canvas id="result-card" style="width: 100%; max-width: 540px; border-radius: 12px; border: 1.5px solid #E8E4DD;"></canvas>
+        </div>
+
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px;">
+          <button onclick="shareNative('${topRole}')" id="native-share-btn" class="share-btn" style="background: #C4956A; display: none;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+            Share Result
+          </button>
+          <button onclick="downloadCard()" id="download-card-btn" class="share-btn" style="background: #C4956A;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download Card
+          </button>
+          <button onclick="shareLinkedIn('${topRole}')" id="linkedin-share-btn" class="share-btn" style="background: #0A66C2;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            LinkedIn
+          </button>
+          <button onclick="shareTwitter('${topRole}')" id="twitter-share-btn" class="share-btn" style="background: #1a1a1a;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            Twitter / X
+          </button>
+          <button onclick="copyLink()" class="share-btn" style="background: #555;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+            Copy Link
+          </button>
+        </div>
+        <span id="copy-confirm" style="font-size: 12px; color: #C4956A; display: none; margin-top: 8px;">Link copied!</span>
+      </div>
+
+      <!-- Restart -->
+      <div style="display: flex; gap: 12px;">
+        <button class="btn btn-small" onclick="restart()">Retake Assessment</button>
+      </div>
+
+      <!-- Footer -->
+      <div style="margin-top: 64px; padding-top: 24px; border-top: 1px solid #E8E4DD;">
+        <p style="font-size: 12px; color: #aaa; line-height: 1.6;">
+          Built for humanities &amp; social science PhDs exploring career paths beyond academia.
+        </p>
+      </div>
+    </div>
+  `;
+
+  showScreen('result');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Render the shareable card after DOM is ready
+  requestAnimationFrame(() => {
+    renderResultCard(topRole);
+    // Show native share on supported devices, fallback buttons otherwise
+    const testCanvas = document.createElement('canvas');
+    testCanvas.width = 1; testCanvas.height = 1;
+    testCanvas.toBlob(function(blob) {
+      const testFile = new File([blob], 'test.png', { type: 'image/png' });
+      const canShare = navigator.canShare && navigator.canShare({ files: [testFile] });
+      document.getElementById('native-share-btn').style.display = canShare ? 'inline-flex' : 'none';
+      document.getElementById('download-card-btn').style.display = canShare ? 'none' : 'inline-flex';
+      document.getElementById('linkedin-share-btn').style.display = canShare ? 'none' : 'inline-flex';
+      document.getElementById('twitter-share-btn').style.display = canShare ? 'none' : 'inline-flex';
+    }, 'image/png');
+  });
+}
+
+function restart() {
+  showScreen('intro');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Role descriptions for popup
+const ROLE_TIPS = {
+  // Researcher paths
+  "UX Researcher": "Conduct interviews, usability tests, and field studies to understand user behavior. You translate qualitative insights into product decisions. Common in tech companies of all sizes.",
+  "Design Researcher": "Similar to UX Research but embedded in design teams. More focus on generative research that inspires new product directions rather than evaluating existing ones.",
+  "User Researcher": "Broad title covering both qualitative and quantitative user research. Often the entry point into research roles at larger companies like Google, Meta, or Microsoft.",
+  "Insights Manager": "Lead a research function or synthesize findings across multiple studies into strategic recommendations. More senior, more cross-functional influence.",
+  "People Analytics Analyst": "Use surveys, behavioral data, and qualitative methods to answer questions about employee engagement, retention, and organizational health.",
+  "Organizational Researcher": "Study how teams and organizations actually work. Often housed in HR or strategy teams. Your ethnographic instincts are a differentiator here.",
+  "Employee Experience Researcher": "Design and run studies on the employee journey \u2014 onboarding, development, belonging. A growing field as companies invest in retention.",
+  "Community Research Lead": "Conduct participatory and community-based research for nonprofits, foundations, or social enterprises. Centers the voices of people most affected.",
+  "Participatory Research Consultant": "Work independently or with firms to design research processes that include community members as co-researchers, not just subjects.",
+  "Impact Researcher": "Measure and evaluate the real-world impact of programs and interventions. Combines research rigor with a focus on social outcomes.",
+
+  // Strategist paths
+  "Associate (consulting)": "Entry-level role at firms like McKinsey, BCG, or Bain. You\u2019ll structure ambiguous problems, build analyses, and present to clients. PhDs often enter at a more senior level than MBAs.",
+  "Strategy Analyst": "In-house strategy role at a company. You analyze market trends, competitive dynamics, and internal data to inform executive decisions.",
+  "Innovation Consultant": "Help organizations develop new products, services, or business models. Often involves design thinking and rapid prototyping alongside strategic analysis.",
+  "Research Consultant": "Conduct research projects for clients \u2014 market research, policy research, or organizational research. Your academic methods are the product.",
+  "Product Manager": "Own the roadmap for a product. You decide what to build and why by synthesizing user research, business goals, and technical feasibility. High-impact, cross-functional role.",
+  "Product Strategist": "Focus on longer-term product vision and market positioning rather than day-to-day feature decisions. Common at larger companies or in advisory roles.",
+  "Technical Program Manager": "Coordinate complex cross-team initiatives. Less about code, more about keeping ambitious projects on track. Your project management skills from the PhD translate well.",
+
+  // Communicator paths
+  "Content Strategist": "Plan and guide what an organization says, where, and why. You think about audience, channel, and message \u2014 not just individual pieces of writing.",
+  "Content Designer": "Write the words inside products \u2014 buttons, error messages, onboarding flows. Every word matters because millions of people read them. Growing role in tech.",
+  "Editorial Lead": "Set the editorial direction for a publication, blog, or content program. You commission, edit, and shape narratives at an organizational level.",
+  "Brand Strategist": "Define how a company presents itself to the world \u2014 voice, positioning, values. Your ability to analyze culture and meaning is directly applicable.",
+  "Instructional Designer": "Design courses, training programs, and learning experiences. You structure knowledge for different audiences \u2014 exactly what you did as a teacher, but at scale.",
+  "L&D Specialist": "Learning & Development \u2014 design and deliver professional development programs inside companies. Your teaching and facilitation skills are the core qualification.",
+  "Curriculum Developer": "Build educational content and learning pathways, often for edtech companies, universities, or corporate training programs.",
+  "Learning Experience Designer": "The intersection of instructional design and UX. You design how people move through digital learning environments. A growing field in edtech.",
+
+  // Builder paths
+  "Program Manager": "Design, implement, and oversee programs at nonprofits or mission-driven orgs. You turn strategy into operations and manage the people and processes that make it happen.",
+  "Program Director": "Senior leadership role overseeing multiple programs or a major initiative. You set direction, manage teams, and report to funders and boards.",
+  "Impact Officer": "Measure and communicate organizational impact. You design evaluation frameworks and tell the story of what the work actually achieves.",
+  "Partnerships Lead": "Build and manage relationships with partner organizations, funders, or government agencies. Your networking and relationship skills from academia transfer directly.",
+  "Policy Analyst": "Research and write policy briefs, analyze legislation, and provide evidence-based recommendations. Common at think tanks, government agencies, and advocacy organizations.",
+  "Research Analyst": "Conduct applied research to inform organizational decisions. Less theoretical than academic research \u2014 the focus is on actionable findings.",
+  "Program Evaluator": "Assess whether programs are achieving their intended outcomes. Uses mixed methods \u2014 your research training is the core skill.",
+  "Government Affairs Associate": "Work at the intersection of organizations and government. You track legislation, build relationships with officials, and advocate for policy positions.",
+  "Community Engagement Director": "Lead an organization\u2019s relationship with the communities it serves. You design outreach strategies, build trust, and ensure community voice shapes decisions.",
+  "Outreach Coordinator": "Organize events, partnerships, and communications that connect an organization to its community. Often the front-facing role in nonprofits and civic organizations.",
+  "Civic Engagement Manager": "Design programs that help people participate in democratic processes \u2014 voting, public comment, community organizing. Mission-driven and people-centered.",
+};
+
+function renderResultCard(resultKey) {
+  const canvas = document.getElementById('result-card');
+  const ctx = canvas.getContext('2d');
+  const result = RESULTS[resultKey];
+
+  // Sort scores for bars
+  const sorted = Object.entries(scores)
+    .map(([key, value]) => ({ key, value, title: RESULTS[key].title, emoji: RESULTS[key].emoji }))
+    .sort((a, b) => b.value - a.value);
+  const maxScore = Math.max(...sorted.map(s => s.value), 1);
+
+  // Canvas size (2x for retina)
+  const W = 1080, H = 1080;
+  canvas.width = W;
+  canvas.height = H;
+
+  // Background
+  ctx.fillStyle = '#FAFAF7';
+  ctx.fillRect(0, 0, W, H);
+
+  // Subtle border
+  ctx.strokeStyle = '#E8E4DD';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(1, 1, W - 2, H - 2);
+
+  // Top label
+  ctx.fillStyle = '#C4956A';
+  ctx.font = '600 22px "DM Sans", sans-serif';
+  ctx.letterSpacing = '3px';
+  ctx.fillText('PHD CAREER ASSESSMENT', 72, 80);
+  ctx.letterSpacing = '0px';
+
+  // Divider line
+  ctx.strokeStyle = '#E8E4DD';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(72, 105);
+  ctx.lineTo(W - 72, 105);
+  ctx.stroke();
+
+  // "Your result" label
+  ctx.fillStyle = '#C4956A';
+  ctx.font = '600 20px "DM Sans", sans-serif';
+  ctx.letterSpacing = '2px';
+  ctx.fillText('YOUR RESULT', 72, 160);
+  ctx.letterSpacing = '0px';
+
+  // Emoji
+  ctx.font = '72px serif';
+  ctx.fillText(result.emoji, 72, 260);
+
+  // Title
+  ctx.fillStyle = '#1a1a1a';
+  ctx.font = '400 64px "Instrument Serif", Georgia, serif';
+  ctx.fillText(result.title, 72, 350);
+
+  // Subtitle
+  ctx.fillStyle = '#8B7355';
+  ctx.font = 'italic 28px "Instrument Serif", Georgia, serif';
+  ctx.fillText(result.subtitle, 72, 400);
+
+  // Score bars
+  const barStartY = 470;
+  const barLeft = 72;
+  const barRight = W - 72;
+  const barMaxWidth = barRight - barLeft - 280;
+
+  sorted.forEach((s, i) => {
+    const y = barStartY + i * 70;
+    const isTop = i === 0;
+
+    // Label
+    ctx.fillStyle = isTop ? '#1a1a1a' : '#999';
+    ctx.font = (isTop ? '600' : '400') + ' 24px "DM Sans", sans-serif';
+    ctx.fillText(s.emoji + '  ' + s.title, barLeft, y);
+
+    // Bar track
+    const trackY = y + 14;
+    ctx.fillStyle = '#F0EBE3';
+    roundRect(ctx, barLeft, trackY, barMaxWidth + 280, 10, 5);
+    ctx.fill();
+
+    // Bar fill
+    const fillWidth = Math.max((s.value / maxScore) * (barMaxWidth + 280), 8);
+    ctx.fillStyle = isTop ? '#C4956A' : '#D9D0C3';
+    roundRect(ctx, barLeft, trackY, fillWidth, 10, 5);
+    ctx.fill();
+  });
+
+  // Paths section
+  const pathsY = barStartY + sorted.length * 70 + 40;
+  ctx.fillStyle = '#8B7355';
+  ctx.font = '600 20px "DM Sans", sans-serif';
+  ctx.letterSpacing = '2px';
+  ctx.fillText('YOUR PATHS', 72, pathsY);
+  ctx.letterSpacing = '0px';
+
+  result.paths.forEach((path, i) => {
+    const py = pathsY + 40 + i * 50;
+    ctx.fillStyle = '#1a1a1a';
+    ctx.font = '400 30px "Instrument Serif", Georgia, serif';
+    ctx.fillText(path.name, 72, py);
+  });
+
+  // Footer
+  const footerY = H - 60;
+  ctx.fillStyle = '#aaa';
+  ctx.font = '400 20px "DM Sans", sans-serif';
+  ctx.fillText('Which Career Path Is Right for Your PhD?', 72, footerY);
+  ctx.fillStyle = '#C4956A';
+  ctx.fillText('Take the quiz \u2192', 72, footerY + 30);
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+}
+
+function downloadCard() {
+  const canvas = document.getElementById('result-card');
+  const link = document.createElement('a');
+  link.download = 'phd-career-result.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
+
+async function shareNative(resultKey) {
+  const canvas = document.getElementById('result-card');
+  const result = RESULTS[resultKey];
+  const url = window.location.href;
+  const text = `I got "${result.title}" on this PhD Career Assessment — maps how humanities & social science PhDs think to career paths beyond academia. Try it yourself: ${url}`;
+  try {
+    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+    const file = new File([blob], 'phd-career-result.png', { type: 'image/png' });
+    await navigator.share({ text: text, files: [file] });
+  } catch (e) {
+    if (e.name !== 'AbortError') downloadCard();
+  }
+}
+
+function shareLinkedIn(resultKey) {
+  const result = RESULTS[resultKey];
+  const url = window.location.href;
+  const text = `I just took this PhD Career Assessment and got "${result.title}" \u2014 an assessment that maps how humanities & social science PhDs think and work to career paths beyond academia. Try it yourself:`;
+  window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank');
+}
+
+function shareTwitter(resultKey) {
+  const result = RESULTS[resultKey];
+  const url = window.location.href;
+  const text = `I got "${result.title}" on this PhD Career Assessment \u2014 maps how humanities & social science PhDs think to career paths beyond academia. ${url}`;
+  window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
+}
+
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    const el = document.getElementById('copy-confirm');
+    el.style.display = 'inline-block';
+    setTimeout(() => el.style.display = 'none', 2000);
+  });
+}
+
+function showRolePopup(role) {
+  // Remove existing popup
+  const existing = document.querySelector('.role-popup');
+  if (existing) existing.remove();
+
+  const tip = ROLE_TIPS[role];
+  if (!tip) return;
+
+  const popup = document.createElement('div');
+  popup.className = 'role-popup';
+  popup.innerHTML = `
+    <button class="role-popup-close" onclick="this.parentElement.remove()">&times;</button>
+    <h4>${role}</h4>
+    <p>${tip}</p>
+  `;
+  document.body.appendChild(popup);
+
+  // Close on outside click
+  setTimeout(() => {
+    document.addEventListener('click', function handler(e) {
+      if (!popup.contains(e.target) && !e.target.classList.contains('pill')) {
+        popup.remove();
+        document.removeEventListener('click', handler);
+      }
+    });
+  }, 10);
+}
+</script>
+</body>
+</html>
