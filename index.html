@@ -103,7 +103,9 @@
       transition: all 0.2s ease; font-family: 'DM Sans', sans-serif;
       display: flex; align-items: baseline; gap: 14px;
     }
-    .option-btn:hover { border-color: #C4956A; background: #FDF9F4; }
+    @media (hover: hover) {
+      .option-btn:hover { border-color: #C4956A; background: #FDF9F4; }
+    }
     .option-btn.selected { background: #1a1a1a; color: #FAFAF7; border-color: #1a1a1a; }
     .option-btn.selected .option-letter { color: #FAFAF7; border-color: rgba(255,255,255,0.3); }
     .option-btn:focus-visible { outline: 2px solid #C4956A; outline-offset: 2px; }
@@ -804,90 +806,90 @@ function renderResultCard(resultKey) {
 
   // Top label
   ctx.fillStyle = '#C4956A';
-  ctx.font = '600 22px "DM Sans", sans-serif';
-  ctx.letterSpacing = '3px';
+  ctx.font = '600 28px "DM Sans", sans-serif';
+  ctx.letterSpacing = '4px';
   ctx.fillText('PHD CAREER ASSESSMENT', 72, 80);
   ctx.letterSpacing = '0px';
 
   // Divider line
   ctx.strokeStyle = '#E8E4DD';
-  ctx.lineWidth = 1.5;
+  ctx.lineWidth = 2;
   ctx.beginPath();
-  ctx.moveTo(72, 105);
-  ctx.lineTo(W - 72, 105);
+  ctx.moveTo(72, 110);
+  ctx.lineTo(W - 72, 110);
   ctx.stroke();
 
   // "Your result" label
   ctx.fillStyle = '#C4956A';
-  ctx.font = '600 20px "DM Sans", sans-serif';
-  ctx.letterSpacing = '2px';
-  ctx.fillText('YOUR RESULT', 72, 160);
+  ctx.font = '600 26px "DM Sans", sans-serif';
+  ctx.letterSpacing = '3px';
+  ctx.fillText('YOUR RESULT', 72, 170);
   ctx.letterSpacing = '0px';
 
   // Emoji
-  ctx.font = '72px serif';
-  ctx.fillText(result.emoji, 72, 260);
+  ctx.font = '88px serif';
+  ctx.fillText(result.emoji, 72, 280);
 
   // Title
   ctx.fillStyle = '#1a1a1a';
-  ctx.font = '400 64px "Instrument Serif", Georgia, serif';
-  ctx.fillText(result.title, 72, 350);
+  ctx.font = '400 80px "Instrument Serif", Georgia, serif';
+  ctx.fillText(result.title, 72, 380);
 
   // Subtitle
   ctx.fillStyle = '#8B7355';
-  ctx.font = 'italic 28px "Instrument Serif", Georgia, serif';
-  ctx.fillText(result.subtitle, 72, 400);
+  ctx.font = 'italic 34px "Instrument Serif", Georgia, serif';
+  ctx.fillText(result.subtitle, 72, 435);
 
   // Score bars
-  const barStartY = 470;
+  const barStartY = 500;
   const barLeft = 72;
   const barRight = W - 72;
   const barMaxWidth = barRight - barLeft - 280;
 
   sorted.forEach((s, i) => {
-    const y = barStartY + i * 70;
+    const y = barStartY + i * 80;
     const isTop = i === 0;
 
     // Label
     ctx.fillStyle = isTop ? '#1a1a1a' : '#999';
-    ctx.font = (isTop ? '600' : '400') + ' 24px "DM Sans", sans-serif';
+    ctx.font = (isTop ? '600' : '400') + ' 30px "DM Sans", sans-serif';
     ctx.fillText(s.emoji + '  ' + s.title, barLeft, y);
 
     // Bar track
-    const trackY = y + 14;
+    const trackY = y + 16;
     ctx.fillStyle = '#F0EBE3';
-    roundRect(ctx, barLeft, trackY, barMaxWidth + 280, 10, 5);
+    roundRect(ctx, barLeft, trackY, barMaxWidth + 280, 14, 7);
     ctx.fill();
 
     // Bar fill
-    const fillWidth = Math.max((s.value / maxScore) * (barMaxWidth + 280), 8);
+    const fillWidth = Math.max((s.value / maxScore) * (barMaxWidth + 280), 10);
     ctx.fillStyle = isTop ? '#C4956A' : '#D9D0C3';
-    roundRect(ctx, barLeft, trackY, fillWidth, 10, 5);
+    roundRect(ctx, barLeft, trackY, fillWidth, 14, 7);
     ctx.fill();
   });
 
   // Paths section
-  const pathsY = barStartY + sorted.length * 70 + 40;
+  const pathsY = barStartY + sorted.length * 80 + 30;
   ctx.fillStyle = '#8B7355';
-  ctx.font = '600 20px "DM Sans", sans-serif';
-  ctx.letterSpacing = '2px';
+  ctx.font = '600 24px "DM Sans", sans-serif';
+  ctx.letterSpacing = '3px';
   ctx.fillText('YOUR PATHS', 72, pathsY);
   ctx.letterSpacing = '0px';
 
   result.paths.forEach((path, i) => {
-    const py = pathsY + 40 + i * 50;
+    const py = pathsY + 38 + i * 44;
     ctx.fillStyle = '#1a1a1a';
-    ctx.font = '400 30px "Instrument Serif", Georgia, serif';
+    ctx.font = '400 32px "Instrument Serif", Georgia, serif';
     ctx.fillText(path.name, 72, py);
   });
 
   // Footer
-  const footerY = H - 72;
+  const footerY = H - 70;
   ctx.fillStyle = '#aaa';
-  ctx.font = '400 20px "DM Sans", sans-serif';
+  ctx.font = '400 22px "DM Sans", sans-serif';
   ctx.fillText('Which Career Path Is Right for Your PhD?', 72, footerY);
   ctx.fillStyle = '#C4956A';
-  ctx.font = '500 20px "DM Sans", sans-serif';
+  ctx.font = '500 22px "DM Sans", sans-serif';
   ctx.fillText('mrduric.github.io/phd-career-assessment', 72, footerY + 30);
 }
 
