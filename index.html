@@ -195,6 +195,21 @@
     /* Screen visibility */
     .screen { display: none; }
     .screen.active { display: block; }
+
+    /* Sector toggle */
+    .sector-toggle {
+      display: inline-flex; background: #F0EBE3; border-radius: 60px;
+      padding: 4px; margin-bottom: 24px;
+    }
+    .sector-toggle button {
+      background: none; border: none; padding: 10px 20px;
+      font-size: 13px; font-weight: 500; border-radius: 60px;
+      cursor: pointer; font-family: 'DM Sans', sans-serif;
+      color: #888; transition: all 0.2s ease;
+    }
+    .sector-toggle button.active {
+      background: #1a1a1a; color: #FAFAF7;
+    }
   </style>
 </head>
 <body>
@@ -228,7 +243,7 @@
       <div style="display: flex; align-items: center; gap: 32px; margin-bottom: 48px; font-size: 13px; color: #888; flex-wrap: wrap;">
         <span><strong style="color: #1a1a1a">10</strong> questions</span>
         <span><strong style="color: #1a1a1a">3 min</strong> to complete</span>
-        <span><strong style="color: #1a1a1a">4</strong> orientations</span>
+        <span><strong style="color: #1a1a1a">4</strong> archetypes</span>
       </div>
 
       <button class="btn" onclick="startQuiz()">Begin Assessment &rarr;</button>
@@ -258,101 +273,111 @@ const QUESTIONS = [
   {
     id: 1,
     question: "When you're deep in your research, what energizes you most?",
+    // Order: R, S, C, B
     options: [
-      { text: "Understanding why people behave the way they do", scores: { researcher: 3, strategist: 1, communicator: 0, builder: 1 } },
+      { text: "Understanding why people behave the way they do", scores: { researcher: 3, strategist: 1, communicator: 0, builder: 0 } },
       { text: "Finding the hidden pattern that ties everything together", scores: { researcher: 1, strategist: 3, communicator: 1, builder: 0 } },
       { text: "Crafting the narrative that makes the argument land", scores: { researcher: 0, strategist: 1, communicator: 3, builder: 0 } },
-      { text: "Figuring out what to actually do with what you've found", scores: { researcher: 1, strategist: 0, communicator: 0, builder: 3 } },
+      { text: "Organizing everything into a plan \u2014 who does what, when, and how", scores: { researcher: 0, strategist: 0, communicator: 0, builder: 3 } },
     ],
   },
   {
     id: 2,
     question: "Your advisor asks you to present your work to a non-academic audience. You instinctively\u2026",
+    // Order: C, R, B, S
     options: [
-      { text: "Lead with a human story from your fieldwork", scores: { researcher: 3, strategist: 0, communicator: 2, builder: 0 } },
-      { text: "Build a framework they can apply to their own problems", scores: { researcher: 0, strategist: 3, communicator: 0, builder: 1 } },
       { text: "Create a clear, compelling slide deck with a throughline", scores: { researcher: 0, strategist: 1, communicator: 3, builder: 0 } },
-      { text: "Focus on what's actionable \u2014 what should they do differently?", scores: { researcher: 0, strategist: 1, communicator: 0, builder: 3 } },
+      { text: "Lead with a human story from your fieldwork", scores: { researcher: 3, strategist: 0, communicator: 2, builder: 0 } },
+      { text: "Break it into concrete steps \u2014 here\u2019s exactly how to implement this", scores: { researcher: 0, strategist: 0, communicator: 0, builder: 3 } },
+      { text: "Build a framework they can apply to their own problems", scores: { researcher: 0, strategist: 3, communicator: 0, builder: 1 } },
     ],
   },
   {
     id: 3,
     question: "A friend is starting a nonprofit and asks for your help. What do you naturally gravitate toward?",
+    // Order: B, C, S, R
     options: [
-      { text: "Talking to the community they want to serve", scores: { researcher: 3, strategist: 0, communicator: 1, builder: 1 } },
-      { text: "Mapping the landscape \u2014 who else is doing this and what's the gap?", scores: { researcher: 0, strategist: 3, communicator: 0, builder: 1 } },
-      { text: "Writing the mission statement, shaping the story", scores: { researcher: 0, strategist: 0, communicator: 3, builder: 0 } },
       { text: "Designing the programs and figuring out how to measure impact", scores: { researcher: 1, strategist: 0, communicator: 0, builder: 3 } },
+      { text: "Writing the mission statement, shaping the story", scores: { researcher: 0, strategist: 0, communicator: 3, builder: 0 } },
+      { text: "Mapping the landscape \u2014 who else is doing this and what\u2019s the gap?", scores: { researcher: 0, strategist: 3, communicator: 0, builder: 1 } },
+      { text: "Talking to the community they want to serve", scores: { researcher: 3, strategist: 0, communicator: 1, builder: 1 } },
     ],
   },
   {
     id: 4,
     question: "What kind of feedback on your dissertation stings the most?",
+    // Order: S, B, R, C
     options: [
-      { text: "\u201CYou didn\u2019t talk to enough people\u201D", scores: { researcher: 3, strategist: 0, communicator: 0, builder: 1 } },
-      { text: "\u201CThe so-what isn\u2019t clear\u201D", scores: { researcher: 0, strategist: 3, communicator: 1, builder: 1 } },
+      { text: "\u201CThe so-what isn\u2019t clear\u201D", scores: { researcher: 0, strategist: 3, communicator: 1, builder: 0 } },
+      { text: "\u201CThere\u2019s no clear plan for how this would actually work in practice\u201D", scores: { researcher: 0, strategist: 1, communicator: 0, builder: 3 } },
+      { text: "\u201CYou didn\u2019t talk to enough people\u201D", scores: { researcher: 3, strategist: 0, communicator: 0, builder: 0 } },
       { text: "\u201CThe writing doesn\u2019t flow\u201D", scores: { researcher: 0, strategist: 0, communicator: 3, builder: 0 } },
-      { text: "\u201CThis doesn\u2019t have real-world implications\u201D", scores: { researcher: 0, strategist: 1, communicator: 0, builder: 3 } },
     ],
   },
   {
     id: 5,
     question: "You discover a podcast about post-PhD careers. Which episode do you click first?",
+    // Order: R, C, S, B
     options: [
       { text: "\u201CHow Netflix Uses Research to Understand Its Users\u201D", scores: { researcher: 3, strategist: 1, communicator: 0, builder: 0 } },
-      { text: "\u201CFrom Dissertation to Strategy Deck: A PhD in Consulting\u201D", scores: { researcher: 0, strategist: 3, communicator: 0, builder: 1 } },
       { text: "\u201CThe Content Strategist Who Shapes How Millions Think\u201D", scores: { researcher: 0, strategist: 0, communicator: 3, builder: 0 } },
-      { text: "\u201CHow a Sociologist Ended Up Running Programs at a Global NGO\u201D", scores: { researcher: 0, strategist: 0, communicator: 0, builder: 3 } },
+      { text: "\u201CFrom Dissertation to Strategy Deck: A PhD in Consulting\u201D", scores: { researcher: 0, strategist: 3, communicator: 0, builder: 1 } },
+      { text: "\u201CFrom PhD to Program Manager: How I Learned to Run a 50-Person Initiative\u201D", scores: { researcher: 0, strategist: 0, communicator: 0, builder: 3 } },
     ],
   },
   {
     id: 6,
     question: "Your favorite seminar paper to teach or discuss is one that\u2026",
+    // Order: B, S, C, R
     options: [
-      { text: "Uses ethnographic detail to reveal something unexpected about everyday life", scores: { researcher: 3, strategist: 0, communicator: 2, builder: 0 } },
-      { text: "Reframes an entire debate with a new theoretical lens", scores: { researcher: 0, strategist: 3, communicator: 0, builder: 1 } },
+      { text: "Has a methodology so well-designed that you could replicate it tomorrow", scores: { researcher: 1, strategist: 0, communicator: 0, builder: 3 } },
+      { text: "Reframes an entire debate with a new theoretical lens", scores: { researcher: 0, strategist: 3, communicator: 0, builder: 0 } },
       { text: "Is beautifully written \u2014 the argument is inseparable from the prose", scores: { researcher: 0, strategist: 0, communicator: 3, builder: 0 } },
-      { text: "Changed how people actually do things \u2014 it had real impact", scores: { researcher: 0, strategist: 1, communicator: 0, builder: 3 } },
+      { text: "Uses ethnographic detail to reveal something unexpected about everyday life", scores: { researcher: 3, strategist: 0, communicator: 2, builder: 0 } },
     ],
   },
   {
     id: 7,
     question: "When you hit a wall in your work, your go-to move is to\u2026",
+    // Order: C, R, B, S
     options: [
-      { text: "Talk to someone \u2014 a participant, a colleague, anyone with a different perspective", scores: { researcher: 3, strategist: 1, communicator: 0, builder: 1 } },
-      { text: "Step back and rethink the framing entirely", scores: { researcher: 0, strategist: 3, communicator: 1, builder: 0 } },
       { text: "Rewrite from scratch \u2014 clarity comes through writing", scores: { researcher: 0, strategist: 0, communicator: 3, builder: 0 } },
+      { text: "Talk to someone \u2014 a participant, a colleague, anyone with a different perspective", scores: { researcher: 3, strategist: 1, communicator: 0, builder: 1 } },
       { text: "Break it into smaller pieces and just start doing something", scores: { researcher: 0, strategist: 0, communicator: 0, builder: 3 } },
+      { text: "Step back and rethink the framing entirely", scores: { researcher: 0, strategist: 3, communicator: 1, builder: 0 } },
     ],
   },
   {
     id: 8,
     question: "Which of these work environments sounds most appealing?",
+    // Order: S, B, R, C
     options: [
-      { text: "A product team where my insights directly shape what gets built", scores: { researcher: 3, strategist: 1, communicator: 0, builder: 0 } },
       { text: "A fast-paced environment where I tackle a new strategic problem every few weeks", scores: { researcher: 0, strategist: 3, communicator: 0, builder: 1 } },
+      { text: "A cross-functional role where I coordinate people and keep complex projects on track", scores: { researcher: 0, strategist: 1, communicator: 0, builder: 3 } },
+      { text: "A product team where my insights directly shape what gets built", scores: { researcher: 3, strategist: 1, communicator: 0, builder: 0 } },
       { text: "A creative team where I own the voice and the story", scores: { researcher: 0, strategist: 0, communicator: 3, builder: 0 } },
-      { text: "A mission-driven org where I can see the direct impact of my work on people's lives", scores: { researcher: 1, strategist: 0, communicator: 0, builder: 3 } },
     ],
   },
   {
     id: 9,
     question: "An organization wants to expand into a new community. What\u2019s your instinct?",
+    // Order: R, C, B, S
     options: [
       { text: "Go talk to people in that community \u2014 understand their world first", scores: { researcher: 3, strategist: 0, communicator: 1, builder: 1 } },
-      { text: "Analyze the landscape \u2014 what's been tried, what works, what's the angle?", scores: { researcher: 0, strategist: 3, communicator: 0, builder: 1 } },
       { text: "Figure out how to tell a story that resonates in that context", scores: { researcher: 0, strategist: 0, communicator: 3, builder: 0 } },
       { text: "Design a pilot program and figure out how to learn from it", scores: { researcher: 1, strategist: 1, communicator: 0, builder: 3 } },
+      { text: "Analyze the landscape \u2014 what\u2019s been tried, what works, what\u2019s the angle?", scores: { researcher: 0, strategist: 3, communicator: 0, builder: 1 } },
     ],
   },
   {
     id: 10,
     question: "Be honest \u2014 which PhD skill are you secretly most proud of?",
+    // Order: B, S, C, R
     options: [
-      { text: "I can build rapport with anyone and get them to open up", scores: { researcher: 3, strategist: 0, communicator: 1, builder: 1 } },
+      { text: "I can take a messy situation and turn it into a plan", scores: { researcher: 0, strategist: 1, communicator: 0, builder: 3 } },
       { text: "I can synthesize a massive literature into a coherent argument", scores: { researcher: 0, strategist: 3, communicator: 1, builder: 0 } },
       { text: "I can write in a way that makes complex ideas accessible", scores: { researcher: 0, strategist: 1, communicator: 3, builder: 0 } },
-      { text: "I can take a messy situation and turn it into a plan", scores: { researcher: 0, strategist: 1, communicator: 0, builder: 3 } },
+      { text: "I can build rapport with anyone and get them to open up", scores: { researcher: 3, strategist: 0, communicator: 1, builder: 1 } },
     ],
   },
 ];
@@ -362,119 +387,204 @@ const RESULTS = {
     title: "The Researcher",
     emoji: "\uD83D\uDD0D",
     subtitle: "You study people for a living. Now get paid properly for it.",
-    description: "Your instinct to understand human behavior through direct engagement \u2014 interviews, observation, deep listening \u2014 is a rare and in-demand skill. You already think in terms of meaning-making and lived experience. Industry needs people who can surface what surveys and dashboards miss.",
-    paths: [
+    description: "Your instinct is to understand the world through direct engagement \u2014 interviews, observation, deep listening. Where others rely on assumptions or surface-level data, you go to the source. You know how to build rapport, ask the question behind the question, and surface what dashboards and surveys miss. That skill is rare and genuinely in demand, whether you\u2019re shaping a product at a tech company or evaluating a program at a foundation.",
+    techPaths: [
       {
         name: "UX Researcher",
-        description: "Study users to shape products at tech companies. Your fieldwork methods translate directly.",
-        roles: ["UX Researcher", "Design Researcher", "User Researcher", "Insights Manager"],
+        description: "Study how people use products through interviews, usability tests, and field studies. Your qualitative methods translate directly \u2014 the only difference is the timeline.",
+        roles: ["UX Researcher", "Design Researcher", "User Researcher"],
+      },
+      {
+        name: "Consumer & Market Researcher",
+        description: "Help brands understand their audiences through ethnographic and qualitative research. Agencies and in-house teams need people who can go deeper than focus groups.",
+        roles: ["Consumer Insights Analyst", "Market Researcher", "Qualitative Research Consultant"],
       },
       {
         name: "People & Organizational Researcher",
-        description: "Bring social science rigor to workforce and culture questions inside companies.",
+        description: "Bring social science rigor to questions about how companies actually work \u2014 culture, engagement, retention, team dynamics.",
         roles: ["People Analytics Analyst", "Organizational Researcher", "Employee Experience Researcher"],
       },
+    ],
+    socialPaths: [
       {
         name: "Community-Engaged Researcher",
-        description: "Do participatory research with communities at NGOs, foundations, or social enterprises.",
-        roles: ["Community Research Lead", "Participatory Research Consultant", "Impact Researcher"],
+        description: "Conduct participatory research that centers the voices of communities most affected. Common at foundations, NGOs, and social enterprises.",
+        roles: ["Community Research Lead", "Participatory Research Consultant"],
+      },
+      {
+        name: "MEL Researcher",
+        description: "Design measurement frameworks and evaluate whether programs achieve what they promise. The methodological backbone of any serious impact organization.",
+        roles: ["Impact Researcher", "M&E Analyst", "Program Evaluator"],
+      },
+      {
+        name: "Applied Policy Researcher",
+        description: "Produce evidence that informs policy decisions at think tanks, government agencies, or advocacy organizations. Your literature review skills finally have a direct audience.",
+        roles: ["Research Associate (think tank)", "Qualitative Policy Researcher"],
       },
     ],
     resources: [
-      { name: "\uD83D\uDCD6 Read first: Just Enough Research by Erika Hall \u2014 the best short book on doing research outside academia", url: "https://abookapart.com/products/just-enough-research" },
-      { name: "\uD83D\uDCAC Join: ResearchOps Community Slack \u2014 a global, free community of research practitioners", url: "https://researchops.community/" },
-      { name: "\u26A1 Do next: Social Sciences & Humanities to UX Research \u2014 curated free resource list by and for PhDs making the switch", url: "https://www.amysantee.com/post/social-sciences-and-humanities-to-ux-research-free-resources" },
-      { name: "\uD83C\uDFA7 Listen: Nikki Anderson\u2019s User Research Strategist \u2014 tactical advice from an actual working researcher", url: "https://www.userresearchstrategist.com/" },
+      { name: "\uD83D\uDCD6 Read first: Just Enough Research by Erika Hall \u2014 the best short book on doing rigorous research outside academia. Practical, opinionated, and relevant whether you\u2019re heading to tech or the nonprofit sector.", url: "https://www.mulebooks.com/just-enough-research" },
+      { name: "\uD83D\uDCAC Join: Ethnography Hangout on Slack \u2014 a large, active community run by the EPIC network for people doing ethnographic and qualitative research in applied settings. Your people.", url: "https://www.epicpeople.org/" },
+      { name: "\u26A1 Do next: Rewrite one of your dissertation studies as a research brief \u2014 2 pages max, with a methods summary, key findings, and actionable recommendations. This is your first portfolio piece.", url: null },
+      { name: "\uD83C\uDFA7 Listen: Awkward Silences by User Interviews \u2014 practical conversations about research methods with working researchers. Covers everything from interview technique to building a research career.", url: "https://www.userinterviews.com/podcast" },
     ],
-    reframe: "Your fieldwork IS a research portfolio. Reframe your methods section as a research plan, your findings as insights, and your implications as recommendations. Whether the audience is a product team or an NGO board, the skill is the same.",
+    reframe: "Your fieldwork is a research portfolio. Your methods section is a research plan. Your findings are insights. Your implications are recommendations. The skill translates directly \u2014 the only thing that changes is who\u2019s sitting across the table when you present.",
   },
   strategist: {
     title: "The Strategist",
     emoji: "\u265F\uFE0F",
     subtitle: "Your ability to reframe problems is worth more than you think.",
-    description: "You don\u2019t just analyze \u2014 you synthesize. Your gift is taking a chaotic landscape of information and producing a clear framework that others can act on. Organizations of every kind need people who can see the big picture and make it legible.",
-    paths: [
+    description: "You don\u2019t just analyze \u2014 you synthesize. Give you a chaotic landscape of information and competing priorities, and you\u2019ll produce a framework that makes it legible and actionable. Your PhD trained you to hold complexity without rushing to simplify it, then to find the structure that others can use to make decisions. That\u2019s strategy \u2014 whether the client is a Fortune 500 company or a government agency.",
+    techPaths: [
       {
         name: "Strategy Consultant",
-        description: "Solve high-stakes business problems at consulting firms or as an independent advisor.",
-        roles: ["Associate (consulting)", "Strategy Analyst", "Innovation Consultant", "Research Consultant"],
+        description: "Solve high-stakes business problems for clients at consulting firms or as an independent advisor. Your ability to structure ambiguous questions is the core skill.",
+        roles: ["Associate (consulting)", "Strategy Analyst", "Research Consultant"],
       },
       {
         name: "Product Manager",
-        description: "Own the vision for a product \u2014 synthesize user needs, business goals, and technical constraints.",
-        roles: ["Product Manager", "Product Strategist", "Technical Program Manager"],
+        description: "Own the vision for a product by synthesizing user needs, business goals, and technical constraints. The most cross-functional role in tech.",
+        roles: ["Product Manager", "Product Strategist"],
+      },
+      {
+        name: "Innovation & Design Strategist",
+        description: "Help organizations rethink their products, services, or business models. Design thinking meets the systems-level analysis you learned in your PhD.",
+        roles: ["Innovation Consultant", "Service Designer", "Design Strategist"],
+      },
+    ],
+    socialPaths: [
+      {
+        name: "Policy Analyst / Advisor",
+        description: "Synthesize evidence, stakeholder interests, and political realities into frameworks that decision-makers can act on. The strategy consulting of the public sector.",
+        roles: ["Policy Analyst", "Policy Advisor", "Legislative Analyst"],
+      },
+      {
+        name: "Program Strategist",
+        description: "Design theories of change, logic models, and program strategies for foundations and nonprofits. You architect the \u201Cwhy\u201D and \u201Cwhat\u201D before the Builder handles the \u201Chow.\u201D",
+        roles: ["Program Designer", "Theory of Change Consultant", "Strategy Officer (foundation)"],
+      },
+      {
+        name: "Social Enterprise Strategist",
+        description: "Apply strategic thinking to organizations that blend profit and purpose. A growing field in impact investing, social ventures, and mission-driven business.",
+        roles: ["Social Impact Consultant", "Venture Analyst (impact investing)", "Social Enterprise Advisor"],
       },
     ],
     resources: [
-      { name: "\uD83D\uDCD6 Read first: Roger Martin\u2019s \u201CStrategy in 1,000 Words\u201D \u2014 the clearest intro to how strategy actually works, from the #1-ranked management thinker", url: "https://rogerlmartin.com/docs/default-source/default-document-library/6-13-2023-red---roger-martin---strategy-in-1000-words.pdf?sfvrsn=b8ca0382_0" },
-      { name: "\uD83D\uDCAC Join: EPIC (Ethnography Praxis in Industry) \u2014 where social scientists do applied work in business", url: "https://www.epicpeople.org/" },
-      { name: "\u26A1 Do next: CraftingCases free course \u2014 7-day case interview fundamentals by ex-McKinsey & Bain consultants (genuinely free, no paywall)", url: "https://www.craftingcases.com/join-free-course/" },
-      { name: "\uD83C\uDFA7 Listen: Lenny\u2019s Podcast \u2014 skip the newsletter, go straight to interviews with PMs and strategists", url: "https://www.lennysnewsletter.com/podcast" },
+      { name: "\uD83D\uDCD6 Watch first: Roger Martin\u2019s \"A Plan Is Not a Strategy\" (HBR) \u2014 the clearest 10-minute explanation of what strategy actually is and why most organizations get it wrong. Essential viewing before your first strategy interview.", url: "https://www.youtube.com/watch?v=iuYlGRnC7J8" },
+      { name: "\u26A1 Do next: Find a real strategic question in the news \u2014 a company entering a new market, a policy debate, a nonprofit scaling up. Write a one-page brief: what\u2019s the core tension, what are the options, what would you recommend and why.", url: null },
+      { name: "\u26A1 Then do: Take one chapter of your dissertation and turn it into a 5-slide strategy deck. Slide 1: the problem. Slide 2: what everyone gets wrong. Slide 3: your framework. Slide 4: the evidence. Slide 5: what to do about it.", url: null },
+      { name: "\uD83C\uDFA7 Listen: The Knowledge Project (Farnam Street) \u2014 long-form interviews with strategists, decision-makers, and clear thinkers across industries. The intellectual depth will feel familiar; the applied focus will show you what strategic thinking looks like outside academia.", url: "https://fs.blog/knowledge-project-podcast/" },
     ],
-    reframe: "Your dissertation defense IS a case presentation. Practice reframing academic arguments as business or organizational recommendations with a clear \"so what\" and concrete next steps.",
+    reframe: "Your dissertation defense was a case presentation. You identified a problem the field was framing wrong, built an original argument for how to think about it differently, and defended it against tough questioning. Now practice doing that in 20 minutes instead of 200 pages, with a clear \u201Cso what\u201D and concrete next steps.",
   },
   communicator: {
     title: "The Communicator",
     emoji: "\u270D\uFE0F",
     subtitle: "You think in narrative. That\u2019s a superpower.",
-    description: "You don\u2019t just write well \u2014 you think about how ideas travel, how audiences receive them, and how to shape understanding through language. Whether the medium is a brand, a curriculum, or a campaign, you know how to make complexity accessible.",
-    paths: [
+    description: "You don\u2019t just write well \u2014 you think about how ideas move. Who\u2019s the audience? What do they already believe? What structure will make this land? Whether you\u2019re shaping a brand voice, designing a curriculum, or writing a grant proposal, you\u2019re doing the same thing: making complexity accessible and making the reader feel like the argument was inevitable. Most people can write clearly. Very few can think about communication the way you do.",
+    techPaths: [
       {
         name: "Content Strategist",
-        description: "Shape how organizations communicate \u2014 from product copy to thought leadership.",
-        roles: ["Content Strategist", "Content Designer", "Editorial Lead", "Brand Strategist"],
+        description: "Shape how products communicate with users \u2014 from onboarding flows to error messages to help documentation. Every word is read by thousands or millions of people.",
+        roles: ["Content Strategist", "Content Designer", "UX Writer"],
       },
       {
-        name: "Instructional Designer",
-        description: "Design learning experiences \u2014 your teaching instincts meet industry scale.",
-        roles: ["Instructional Designer", "L&D Specialist", "Curriculum Developer", "Learning Experience Designer"],
+        name: "Brand & Editorial Strategist",
+        description: "Define how an organization tells its story externally. You set the voice, commission the pieces, and shape the narrative arc across channels.",
+        roles: ["Brand Strategist", "Editorial Lead", "Thought Leadership Manager"],
+      },
+      {
+        name: "Learning Designer (Corporate)",
+        description: "Design training programs and learning experiences for employees. Your teaching instincts meet corporate scale and budget.",
+        roles: ["Instructional Designer", "L&D Specialist", "Learning Experience Designer"],
+      },
+    ],
+    socialPaths: [
+      {
+        name: "Communications Lead (Nonprofit)",
+        description: "Own the full communications function at a mission-driven organization \u2014 messaging, digital presence, storytelling, media relations.",
+        roles: ["Communications Director", "Digital Communications Manager", "Content Manager (nonprofit)"],
+      },
+      {
+        name: "Grant Writer & Proposal Strategist",
+        description: "Write the proposals that fund the work. One of the most direct PhD-to-career translations \u2014 you already know how to build a persuasive, evidence-based argument under a deadline.",
+        roles: ["Grant Writer", "Proposal Manager", "Development Writer"],
+      },
+      {
+        name: "Curriculum & Learning Designer",
+        description: "Build educational content and learning pathways at nonprofits, government agencies, or edtech organizations. You structure knowledge for specific audiences \u2014 exactly what you did as a teacher.",
+        roles: ["Curriculum Developer", "Education Program Designer", "Training Specialist"],
       },
     ],
     resources: [
-      { name: "\uD83D\uDCD6 Read first: GOV.UK Content Design Principles \u2014 the gold standard for clear, user-centered writing", url: "https://www.gov.uk/guidance/content-design/writing-for-gov-uk" },
-      { name: "\uD83D\uDCAC Join: Content + UX community on Slack \u2014 practitioners sharing real work, not courses", url: "https://contentandux.org/" },
-      { name: "\u26A1 Do next: Read how Sarah Richards invented content design \u2014 then rewrite one page of your dissertation for a general audience", url: "https://medium.com/ux-and-front-end-interviews/why-content-design-matters-an-interview-with-sarah-richards-a9ad0de3c37a" },
-      { name: "\uD83C\uDFA7 Listen: The Content Strategy Podcast \u2014 how Sarah Richards created content design at GOV.UK", url: "https://www.braintraffic.com/podcast/ep-4-sarah-richards-and-content-design" },
+      { name: "\uD83D\uDCD6 Read first: GOV.UK Content Design Principles \u2014 the gold standard for clear, user-centered writing. Even if you\u2019re not going into government, this will rewire how you think about audience.", url: "https://www.gov.uk/guidance/content-design/writing-for-gov-uk" },
+      { name: "\uD83D\uDCAC Join: Content + UX community on Slack \u2014 over 14,000 content and content-adjacent professionals sharing real work, job leads, and advice. Free to join, genuinely active.", url: "https://contentandux.org/" },
+      { name: "\u26A1 Do next: Pick one page of your dissertation and rewrite it four ways: as a blog post, a grant proposal summary, a LinkedIn article, and a product description. Same ideas, four audiences. This becomes your portfolio.", url: null },
+      { name: "\uD83D\uDD0D Explore: Funding for Good\u2019s grant writing resources \u2014 practical guides on grant proposals, fundraising writing, and nonprofit communications from experienced grant writers. Essential if you\u2019re drawn to the social impact side.", url: "https://fundingforgood.org/resources/" },
     ],
-    reframe: "Your academic writing shows rigor. Now build a portfolio that shows range: a blog post, a course outline, a case study, product copy. Show you can write for scanners, not just readers \u2014 and teach, not just tell.",
+    reframe: "Your academic writing demonstrates rigor. Now build a portfolio that shows range. Take one chapter of your dissertation and turn it into four things: a blog post, a slide deck, a grant proposal, and a product description. Same ideas, four audiences. That portfolio proves you can do what most candidates can\u2019t \u2014 write for anyone.",
   },
   builder: {
     title: "The Builder",
     emoji: "\uD83D\uDE80",
-    subtitle: "You don\u2019t just study the world. You want to change it.",
-    description: "You care about impact more than analysis. Your instinct is to take what you know and make something happen with it \u2014 design a program, launch an initiative, move resources where they matter. You\u2019re drawn to work that\u2019s tangible and mission-driven.",
-    paths: [
+    subtitle: "You don\u2019t just study problems. You make things run.",
+    description: "Your instinct when you see a problem isn\u2019t to write about it or theorize about it \u2014 it\u2019s to figure out how to organize a response. You think in terms of systems, processes, and people. Who needs to be in the room? What\u2019s the timeline? How will we know if it\u2019s working? Your PhD proved you can manage a multi-year project with ambiguous goals, limited resources, and no real authority over anyone. That\u2019s operational leadership, and it\u2019s one of the hardest things to hire for.",
+    techPaths: [
       {
-        name: "Program Manager (NGO / Impact)",
-        description: "Design, run, and evaluate programs at mission-driven organizations.",
-        roles: ["Program Manager", "Program Director", "Impact Officer", "Partnerships Lead"],
+        name: "Program Manager (Tech)",
+        description: "Coordinate complex cross-team initiatives at tech companies. Less about code, more about keeping ambitious projects on track when everything is ambiguous.",
+        roles: ["Technical Program Manager", "Program Manager", "Project Manager"],
       },
       {
-        name: "Policy & Research Analyst",
-        description: "Bridge evidence and decision-making at think tanks, government, or advocacy orgs.",
-        roles: ["Policy Analyst", "Research Analyst", "Program Evaluator", "Government Affairs Associate"],
+        name: "Operations & Chief of Staff",
+        description: "Turn leadership\u2019s priorities into organized workstreams. You\u2019re the person who takes a vague mandate and builds the system that makes it happen.",
+        roles: ["Operations Manager", "Chief of Staff", "Business Operations Analyst"],
       },
       {
-        name: "Community Engagement Lead",
-        description: "Build relationships between organizations and the communities they serve.",
-        roles: ["Community Engagement Director", "Outreach Coordinator", "Civic Engagement Manager"],
+        name: "People Operations & Org Development",
+        description: "Design and run the systems that shape how a company actually functions \u2014 onboarding, performance, development, organizational design.",
+        roles: ["People Ops Manager", "Organizational Development Specialist", "Employee Engagement Lead"],
+      },
+    ],
+    socialPaths: [
+      {
+        name: "Program Manager (NGO / Foundation)",
+        description: "Design, implement, and oversee programs at mission-driven organizations. You turn strategy into operations and manage the people and processes that deliver results.",
+        roles: ["Program Manager (NGO)", "Program Director", "Program Officer"],
+      },
+      {
+        name: "Community Engagement & Partnerships",
+        description: "Build and maintain the relationships between an organization and the communities it serves. You design outreach systems, manage partnerships, and ensure community voice shapes decisions.",
+        roles: ["Community Engagement Director", "Partnerships Lead", "Outreach Manager"],
+      },
+      {
+        name: "Operations & Organizational Development (Nonprofit)",
+        description: "Strengthen the internal systems and capacity of mission-driven organizations. You help nonprofits run like well-oiled machines so they can focus on their mission.",
+        roles: ["Operations Director", "Capacity Building Consultant", "Nonprofit Management"],
       },
     ],
     resources: [
-      { name: "\uD83D\uDCD6 Read first: Stanford Social Innovation Review \u2014 the best publication on program design and impact (some articles free, subscription for full access)", url: "https://ssir.org/articles" },
-      { name: "\uD83D\uDCAC Join: ProFellow \u2014 the best database of fellowships, many designed for post-PhD social impact careers", url: "https://www.profellow.com/" },
-      { name: "\u26A1 Get inspired: Echoing Green Fellowship \u2014 see what funded social ventures look like ($80K+ seed funding, 40 years of alumni)", url: "https://echoinggreen.org/fellowship/" },
-      { name: "\uD83D\uDD0D Browse: Idealist \u2014 the most comprehensive nonprofit and social impact job board", url: "https://www.idealist.org/en" },
+      { name: "\uD83D\uDCD6 Read first: The First 90 Days by Michael Watkins \u2014 the standard book on stepping into a new operational leadership role. Useful whether you\u2019re joining a tech company or a nonprofit.", url: "https://hbr.org/books/watkins" },
+      { name: "\uD83D\uDCAC Join: ProFellow \u2014 the best database of fellowships, many designed for post-PhD careers in social impact, policy, and organizational leadership. Also useful for finding structured entry points into new sectors.", url: "https://www.profellow.com/" },
+      { name: "\u26A1 Do next: Write a one-page \"program brief\" for your dissertation. Frame it as: the problem you addressed, your approach, how you managed the work, what you delivered, and what you\u2019d do differently. This is the Builder\u2019s version of a portfolio piece.", url: null },
+      { name: "\uD83D\uDD0D Explore: Bridgespan\u2019s nonprofit job board and career resources \u2014 specifically designed for people moving into social impact management and operations roles. Strong on the \"how to make the transition\" angle.", url: "https://www.bridgespan.org/jobs" },
     ],
-    reframe: "Your dissertation shows you can sustain a multi-year project from concept to completion. Reframe that as program design: you identified a need, developed an approach, gathered evidence, and delivered results. That\u2019s exactly what funders and boards want to hear.",
+    reframe: "Your dissertation was a program you designed and ran. You identified a need, developed a methodology, navigated institutional bureaucracy, managed stakeholders who didn\u2019t report to you, adapted when things went sideways, and delivered a final product on a deadline. Describe it that way and every hiring manager in operations, program management, or organizational development will recognize you as one of their own.",
   },
+};
+
+// Display name overrides for role pills
+const ROLE_DISPLAY = {
+  "Program Manager (NGO)": "Program Manager",
 };
 
 // State
 let currentQ = 0;
 let scores = { researcher: 0, strategist: 0, communicator: 0, builder: 0 };
 let animating = false;
-let answers = []; // store chosen options for back navigation
+let answers = [];
+let currentSector = 'tech';
+let currentTopRole = null;
 
 function showScreen(name) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -487,6 +597,7 @@ function startQuiz() {
   scores = { researcher: 0, strategist: 0, communicator: 0, builder: 0 };
   answers = [];
   animating = false;
+  currentSector = 'tech';
   showScreen('quiz');
   renderQuestion();
 }
@@ -499,7 +610,6 @@ function renderQuestion() {
     String(currentQ + 1).padStart(2, '0') + ' / ' + QUESTIONS.length;
   document.getElementById('q-text').textContent = q.question;
 
-  // Show/hide back button
   const backBtn = document.getElementById('back-btn');
   backBtn.className = currentQ > 0 ? 'back-btn visible' : 'back-btn';
 
@@ -522,11 +632,9 @@ function handleAnswer(option, btn) {
   if (animating) return;
   animating = true;
 
-  // Mark selected
   document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
 
-  // Store answer and add scores
   answers[currentQ] = option;
   Object.keys(option.scores).forEach(k => {
     scores[k] += option.scores[k];
@@ -542,7 +650,6 @@ function handleAnswer(option, btn) {
         renderQuestion();
         animating = false;
       } else {
-        // Check for tie before showing result
         setTimeout(() => checkForTie(), 500);
       }
     }, 300);
@@ -553,7 +660,6 @@ function goBack() {
   if (currentQ <= 0 || animating) return;
   animating = true;
 
-  // Undo the previous answer's scores
   const prevAnswer = answers[currentQ - 1];
   if (prevAnswer) {
     Object.keys(prevAnswer.scores).forEach(k => {
@@ -574,7 +680,7 @@ const TIEBREAKER_PITCHES = {
   researcher: "I want to understand people \u2014 their motivations, experiences, and unspoken needs",
   strategist: "I want to see the big picture \u2014 and build the framework that makes it legible",
   communicator: "I want to shape how people think \u2014 through narrative, language, and design",
-  builder: "I want to make things happen \u2014 programs, initiatives, tangible change",
+  builder: "I want to make things run \u2014 systems, processes, and people working together",
 };
 
 function checkForTie() {
@@ -587,7 +693,6 @@ function checkForTie() {
     return;
   }
 
-  // Show tiebreaker question
   showTiebreaker(tied);
 }
 
@@ -595,7 +700,7 @@ function showTiebreaker(tied) {
   document.getElementById('progress-fill').style.width = '95%';
   document.getElementById('q-counter').textContent = 'TIEBREAKER';
   document.getElementById('q-text').textContent = 'Two paths emerged equally strong. Which resonates more with how you see yourself?';
-  document.getElementById('back-btn').className = 'back-btn'; // hide
+  document.getElementById('back-btn').className = 'back-btn';
 
   const container = document.getElementById('q-options');
   container.innerHTML = '';
@@ -624,10 +729,41 @@ function showTiebreaker(tied) {
   animating = false;
 }
 
+function getRoleDisplay(role) {
+  return ROLE_DISPLAY[role] || role;
+}
+
+function renderPaths(topRole, sector) {
+  const result = RESULTS[topRole];
+  const paths = sector === 'tech' ? result.techPaths : result.socialPaths;
+  const container = document.getElementById('paths-container');
+  container.innerHTML = paths.map(path => `
+    <div style="background: #fff; border: 1.5px solid #E8E4DD; border-radius: 14px; padding: 24px; margin-bottom: 16px;">
+      <h4 style="font-family: 'Instrument Serif', Georgia, serif; font-size: 20px; font-weight: 400; margin: 0 0 8px 0;">
+        ${path.name}
+      </h4>
+      <p style="font-size: 14px; line-height: 1.6; color: #666; margin: 0 0 14px 0;">
+        ${path.description}
+      </p>
+      <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+        ${path.roles.map(r => `<span class="pill" onclick="showRolePopup('${r.replace(/'/g, "\\'")}')">${getRoleDisplay(r)}</span>`).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function switchSector(sector) {
+  currentSector = sector;
+  document.getElementById('toggle-tech').className = sector === 'tech' ? 'active' : '';
+  document.getElementById('toggle-social').className = sector === 'social' ? 'active' : '';
+  renderPaths(currentTopRole, sector);
+}
+
 function showResult(topRole) {
+  currentTopRole = topRole;
+  currentSector = 'tech';
   const result = RESULTS[topRole];
 
-  // Sort scores for bar chart, winner always first
   const sorted = Object.entries(scores)
     .map(([key, value]) => ({ key, value, title: RESULTS[key].title, emoji: RESULTS[key].emoji }))
     .sort((a, b) => {
@@ -674,25 +810,16 @@ function showResult(topRole) {
         `).join('')}
       </div>
 
-      <!-- Paths within this orientation -->
+      <!-- Paths with sector toggle -->
       <div style="margin-bottom: 36px;">
-        <h3 style="font-family: 'Instrument Serif', Georgia, serif; font-size: 26px; font-weight: 400; margin-bottom: 24px; margin-top: 0;">
+        <h3 style="font-family: 'Instrument Serif', Georgia, serif; font-size: 26px; font-weight: 400; margin-bottom: 16px; margin-top: 0;">
           Your Paths
         </h3>
-
-        ${result.paths.map((path, i) => `
-          <div style="background: #fff; border: 1.5px solid #E8E4DD; border-radius: 14px; padding: 24px; margin-bottom: 16px;">
-            <h4 style="font-family: 'Instrument Serif', Georgia, serif; font-size: 20px; font-weight: 400; margin: 0 0 8px 0;">
-              ${path.name}
-            </h4>
-            <p style="font-size: 14px; line-height: 1.6; color: #666; margin: 0 0 14px 0;">
-              ${path.description}
-            </p>
-            <div style="display: flex; flex-wrap: wrap; gap: 6px;">
-              ${path.roles.map(r => `<span class="pill" onclick="showRolePopup('${r.replace(/'/g, "\\\'")}')">${r}</span>`).join('')}
-            </div>
-          </div>
-        `).join('')}
+        <div class="sector-toggle">
+          <button id="toggle-tech" class="active" onclick="switchSector('tech')">Tech / Private Sector</button>
+          <button id="toggle-social" onclick="switchSector('social')">Social Impact / Public Sector</button>
+        </div>
+        <div id="paths-container"></div>
       </div>
 
       <!-- Resources & Reframe -->
@@ -700,8 +827,11 @@ function showResult(topRole) {
         <div style="margin-bottom: 28px;">
           <h4 class="section-label">What to Do Next</h4>
           <div style="display: flex; flex-direction: column; gap: 6px;">
-            ${result.resources.map(r => `<a href="${r.url}" target="_blank" rel="noopener" style="font-size: 14px; color: #8B7355; text-decoration: none; display: block; transition: color 0.2s;"
-              onmouseover="this.style.color='#C4956A'" onmouseout="this.style.color='#8B7355'">&rarr; ${r.name}</a>`).join('')}
+            ${result.resources.map(r => r.url
+              ? `<a href="${r.url}" target="_blank" rel="noopener" style="font-size: 14px; color: #8B7355; text-decoration: none; display: block; transition: color 0.2s;"
+                  onmouseover="this.style.color='#C4956A'" onmouseout="this.style.color='#8B7355'">&rarr; ${r.name}</a>`
+              : `<span style="font-size: 14px; color: #8B7355; display: block;">&rarr; ${r.name}</span>`
+            ).join('')}
           </div>
         </div>
 
@@ -716,7 +846,6 @@ function showResult(topRole) {
         <h4 class="section-label">Share Your Result</h4>
         <p style="font-size: 14px; color: #888; margin-bottom: 16px;">Share your result card on social media.</p>
 
-        <!-- Card preview -->
         <div id="card-preview" style="margin-bottom: 20px;">
           <canvas id="result-card" style="width: 100%; max-width: 540px; border-radius: 12px; border: 1.5px solid #E8E4DD;"></canvas>
         </div>
@@ -759,13 +888,14 @@ function showResult(topRole) {
     </div>
   `;
 
+  // Render paths for default sector
+  renderPaths(topRole, currentSector);
+
   showScreen('result');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
-  // Render the shareable card after DOM is ready
   requestAnimationFrame(() => {
     renderResultCard(topRole);
-    // Show native share on supported devices, fallback buttons otherwise
     const testCanvas = document.createElement('canvas');
     testCanvas.width = 1; testCanvas.height = 1;
     testCanvas.toBlob(function(blob) {
@@ -784,51 +914,91 @@ function restart() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Role descriptions for popup
 const ROLE_TIPS = {
-  // Researcher paths
-  "UX Researcher": "Conduct interviews, usability tests, and field studies to understand user behavior. You translate qualitative insights into product decisions. Common in tech companies of all sizes.",
-  "Design Researcher": "Similar to UX Research but embedded in design teams. More focus on generative research that inspires new product directions rather than evaluating existing ones.",
+  // ===== RESEARCHER — Tech / Private =====
+  "UX Researcher": "Conduct interviews, usability tests, and field studies to understand how people use products. You translate qualitative insights into decisions about what to build or fix. Common at tech companies of all sizes.",
+  "Design Researcher": "Similar to UX Research but embedded in design teams. More focus on generative research that opens up new product directions rather than evaluating existing ones.",
   "User Researcher": "Broad title covering both qualitative and quantitative user research. Often the entry point into research roles at larger companies like Google, Meta, or Microsoft.",
-  "Insights Manager": "Lead a research function or synthesize findings across multiple studies into strategic recommendations. More senior, more cross-functional influence.",
-  "People Analytics Analyst": "Use surveys, behavioral data, and qualitative methods to answer questions about employee engagement, retention, and organizational health.",
-  "Organizational Researcher": "Study how teams and organizations actually work. Often housed in HR or strategy teams. Your ethnographic instincts are a differentiator here.",
-  "Employee Experience Researcher": "Design and run studies on the employee journey \u2014 onboarding, development, belonging. A growing field as companies invest in retention.",
-  "Community Research Lead": "Conduct participatory and community-based research for nonprofits, foundations, or social enterprises. Centers the voices of people most affected.",
-  "Participatory Research Consultant": "Work independently or with firms to design research processes that include community members as co-researchers, not just subjects.",
-  "Impact Researcher": "Measure and evaluate the real-world impact of programs and interventions. Combines research rigor with a focus on social outcomes.",
+  "Consumer Insights Analyst": "Analyze qualitative and quantitative data to understand consumer behavior, attitudes, and motivations. Usually in-house at brands or at research agencies that serve them.",
+  "Market Researcher": "Study market trends, competitive landscapes, and audience segments to inform business strategy. More business-facing than UX research \u2014 your audience is the marketing or strategy team, not the product team.",
+  "Qualitative Research Consultant": "Work independently or at a research firm conducting qualitative studies for clients across industries. Your PhD methods are literally the product you\u2019re selling.",
+  "People Analytics Analyst": "Use surveys, behavioral data, and qualitative methods to answer questions about employee engagement, retention, and organizational health. Sits in HR but the work is genuine social science.",
+  "Organizational Researcher": "Study how teams and organizations function \u2014 decision-making, culture, communication patterns. Often housed in HR or strategy teams. Your ethnographic instincts are a differentiator.",
+  "Employee Experience Researcher": "Design and conduct studies on the employee journey \u2014 onboarding, development, belonging. A growing field as companies invest in understanding and improving retention.",
 
-  // Strategist paths
-  "Associate (consulting)": "Entry-level role at firms like McKinsey, BCG, or Bain. You\u2019ll structure ambiguous problems, build analyses, and present to clients. PhDs often enter at a more senior level than MBAs.",
-  "Strategy Analyst": "In-house strategy role at a company. You analyze market trends, competitive dynamics, and internal data to inform executive decisions.",
-  "Innovation Consultant": "Help organizations develop new products, services, or business models. Often involves design thinking and rapid prototyping alongside strategic analysis.",
-  "Research Consultant": "Conduct research projects for clients \u2014 market research, policy research, or organizational research. Your academic methods are the product.",
-  "Product Manager": "Own the roadmap for a product. You decide what to build and why by synthesizing user research, business goals, and technical feasibility. High-impact, cross-functional role.",
-  "Product Strategist": "Focus on longer-term product vision and market positioning rather than day-to-day feature decisions. Common at larger companies or in advisory roles.",
-  "Technical Program Manager": "Coordinate complex cross-team initiatives. Less about code, more about keeping ambitious projects on track. Your project management skills from the PhD translate well.",
+  // ===== RESEARCHER — Social Impact / Public =====
+  "Community Research Lead": "Conduct participatory and community-based research for nonprofits, foundations, or social enterprises. You center the voices of people most affected rather than studying them from a distance.",
+  "Participatory Research Consultant": "Work independently or with firms to design research processes that include community members as co-researchers. Your methodological training is the foundation, but the approach inverts traditional power dynamics.",
+  "Impact Researcher": "Measure and evaluate the real-world outcomes of programs and interventions. Combines research rigor with a focus on what\u2019s actually changing in people\u2019s lives.",
+  "M&E Analyst": "Build and maintain monitoring and evaluation systems that track program performance over time. More quantitative and systems-oriented than impact research \u2014 you design the dashboards and data collection processes.",
+  "Program Evaluator": "Assess whether programs achieve their intended outcomes using mixed methods. Often contracted by funders who want independent evidence of what\u2019s working. Your research independence is an asset.",
+  "Research Associate (think tank)": "Conduct applied research on policy-relevant questions at organizations like Brookings, Urban Institute, or RAND. More focused and shorter timelines than academic research, with a direct audience in policymakers.",
+  "Qualitative Policy Researcher": "Bring qualitative and ethnographic methods to policy research, which is often dominated by quantitative approaches. You add depth and context that numbers alone miss. Increasingly valued at progressive think tanks and government agencies.",
 
-  // Communicator paths
-  "Content Strategist": "Plan and guide what an organization says, where, and why. You think about audience, channel, and message \u2014 not just individual pieces of writing.",
-  "Content Designer": "Write the words inside products \u2014 buttons, error messages, onboarding flows. Every word matters because millions of people read them. Growing role in tech.",
-  "Editorial Lead": "Set the editorial direction for a publication, blog, or content program. You commission, edit, and shape narratives at an organizational level.",
-  "Brand Strategist": "Define how a company presents itself to the world \u2014 voice, positioning, values. Your ability to analyze culture and meaning is directly applicable.",
-  "Instructional Designer": "Design courses, training programs, and learning experiences. You structure knowledge for different audiences \u2014 exactly what you did as a teacher, but at scale.",
-  "L&D Specialist": "Learning & Development \u2014 design and deliver professional development programs inside companies. Your teaching and facilitation skills are the core qualification.",
-  "Curriculum Developer": "Build educational content and learning pathways, often for edtech companies, universities, or corporate training programs.",
-  "Learning Experience Designer": "The intersection of instructional design and UX. You design how people move through digital learning environments. A growing field in edtech.",
+  // ===== STRATEGIST — Tech / Private =====
+  "Associate (consulting)": "Entry-level role at firms like McKinsey, BCG, or Bain. You structure ambiguous problems, build analyses, and present recommendations to clients. PhDs often enter at a more senior level than MBAs.",
+  "Strategy Analyst": "In-house strategy role at a company. You analyze market trends, competitive dynamics, and internal data to inform executive decisions. Less travel than consulting, more organizational context.",
+  "Research Consultant": "Conduct research projects for clients \u2014 market research, policy research, or organizational research. Your academic methods are the product, but the timelines are weeks, not years.",
+  "Product Manager": "Own the roadmap for a product. You decide what to build and why by synthesizing user research, business goals, and technical feasibility. High-impact, cross-functional, and one of the most common PhD-to-tech transitions.",
+  "Product Strategist": "Focus on longer-term product vision and market positioning rather than day-to-day feature decisions. More analytical and less operational than a PM role. Common at larger companies or in advisory capacities.",
+  "Innovation Consultant": "Help organizations develop new products, services, or business models. Often involves design thinking and rapid prototyping alongside strategic analysis. Firms like IDEO and Frog hire from this profile.",
+  "Service Designer": "Map and redesign how people experience a service end-to-end \u2014 from first contact through delivery and follow-up. A systems-level design discipline that values the kind of holistic thinking PhDs do naturally.",
+  "Design Strategist": "Bridge the gap between business strategy and design execution. You translate organizational goals into design principles and research agendas. Sits at the intersection of consulting and design.",
 
-  // Builder paths
-  "Program Manager": "Design, implement, and oversee programs at nonprofits or mission-driven orgs. You turn strategy into operations and manage the people and processes that make it happen.",
-  "Program Director": "Senior leadership role overseeing multiple programs or a major initiative. You set direction, manage teams, and report to funders and boards.",
-  "Impact Officer": "Measure and communicate organizational impact. You design evaluation frameworks and tell the story of what the work actually achieves.",
-  "Partnerships Lead": "Build and manage relationships with partner organizations, funders, or government agencies. Your networking and relationship skills from academia transfer directly.",
-  "Policy Analyst": "Research and write policy briefs, analyze legislation, and provide evidence-based recommendations. Common at think tanks, government agencies, and advocacy organizations.",
-  "Research Analyst": "Conduct applied research to inform organizational decisions. Less theoretical than academic research \u2014 the focus is on actionable findings.",
-  "Program Evaluator": "Assess whether programs are achieving their intended outcomes. Uses mixed methods \u2014 your research training is the core skill.",
-  "Government Affairs Associate": "Work at the intersection of organizations and government. You track legislation, build relationships with officials, and advocate for policy positions.",
-  "Community Engagement Director": "Lead an organization\u2019s relationship with the communities it serves. You design outreach strategies, build trust, and ensure community voice shapes decisions.",
-  "Outreach Coordinator": "Organize events, partnerships, and communications that connect an organization to its community. Often the front-facing role in nonprofits and civic organizations.",
-  "Civic Engagement Manager": "Design programs that help people participate in democratic processes \u2014 voting, public comment, community organizing. Mission-driven and people-centered.",
+  // ===== STRATEGIST — Social Impact / Public =====
+  "Policy Analyst": "Research and write policy briefs, analyze legislation, and provide evidence-based recommendations. The core analytical role at think tanks, government agencies, and advocacy organizations.",
+  "Policy Advisor": "More senior and relationship-oriented than analyst roles. You brief decision-makers directly and shape how they think about issues. Your ability to synthesize complex evidence into clear recommendations is the key skill.",
+  "Legislative Analyst": "Track, analyze, and brief stakeholders on proposed legislation. Fast-paced and politically aware \u2014 you need to understand both the substance and the strategy of policy debates.",
+  "Program Designer": "Architect new programs from scratch \u2014 define the problem, design the intervention, build the logic model, plan the evaluation. The creative, front-end work before implementation begins.",
+  "Theory of Change Consultant": "Help organizations articulate how and why their work leads to impact. You build the conceptual frameworks that connect activities to outcomes. Highly valued by foundations and major funders.",
+  "Strategy Officer (foundation)": "Shape a foundation\u2019s grantmaking strategy \u2014 which issues to fund, which approaches to back, how to measure progress. One of the more intellectually stimulating roles in philanthropy.",
+  "Social Impact Consultant": "Advise mission-driven organizations on strategy, operations, or evaluation. Firms like Bridgespan, FSG, and Dalberg specialize in this. The consulting path for people who want to work on social problems.",
+  "Venture Analyst (impact investing)": "Evaluate social enterprises and impact-focused startups for investment. You assess both financial viability and social impact \u2014 a unique analytical challenge that values PhD-level thinking.",
+  "Social Enterprise Advisor": "Help organizations that blend profit and purpose develop sustainable business models. You sit at the intersection of strategy, mission, and financial sustainability.",
+
+  // ===== COMMUNICATOR — Tech / Private =====
+  "Content Strategist": "Plan and guide what an organization communicates, where, and why. You think about audience, channel, and message architecture \u2014 not just individual pieces of writing.",
+  "Content Designer": "Write the words inside products \u2014 buttons, error messages, onboarding flows. Every word matters because millions of people read them. A growing and well-paid role in tech.",
+  "UX Writer": "Closely related to Content Designer, sometimes the same role under a different title. You craft the microcopy that guides users through digital experiences. Clarity and empathy in 10 words or fewer.",
+  "Brand Strategist": "Define how a company presents itself to the world \u2014 voice, positioning, values, narrative. Your ability to analyze culture and meaning is directly applicable.",
+  "Editorial Lead": "Set the editorial direction for a publication, blog, or content program. You commission, edit, and shape narratives at an organizational level. Think less \u2018writing\u2019 and more \u2018editorial vision.\u2019",
+  "Thought Leadership Manager": "Help executives and organizations develop and publish ideas that shape industry conversations. You ghostwrite, edit, and strategize \u2014 turning rough expertise into polished arguments.",
+  "Instructional Designer": "Design courses, training programs, and learning experiences for corporate audiences. You structure knowledge for different skill levels \u2014 exactly what you did as a teacher, but at scale and with better tools.",
+  "L&D Specialist": "Learning and Development \u2014 design and deliver professional development programs inside companies. Your teaching and facilitation skills are the core qualification. Often the entry point into corporate learning.",
+  "Learning Experience Designer": "The intersection of instructional design and UX. You design how people move through digital learning environments, combining pedagogy with user experience principles. A growing field in edtech and corporate training.",
+
+  // ===== COMMUNICATOR — Social Impact / Public =====
+  "Communications Director": "Own the full communications strategy at a nonprofit \u2014 messaging, media relations, digital presence, crisis communications. A leadership role that requires both strategic thinking and hands-on writing.",
+  "Digital Communications Manager": "Manage an organization\u2019s digital presence \u2014 social media, email campaigns, website content. More executional than a director role but with real creative ownership.",
+  "Content Manager (nonprofit)": "Create and manage content that tells the organization\u2019s story across channels. You translate program work into narratives that resonate with donors, partners, and the public.",
+  "Grant Writer": "Write the proposals that fund nonprofit work. Requires building a persuasive, evidence-based argument under strict formatting and deadline constraints \u2014 sound familiar? One of the most natural PhD-to-career translations.",
+  "Proposal Manager": "Coordinate and lead the proposal development process for large grants or government contracts. Part writing, part project management \u2014 you ensure the narrative is compelling and the submission is complete.",
+  "Development Writer": "Write fundraising materials \u2014 donor communications, annual reports, case statements, campaign materials. You make the case for why people should give money to a cause. Persuasive writing with high stakes.",
+  "Curriculum Developer": "Build educational content and learning pathways for nonprofits, government agencies, or edtech organizations. You design how people learn about specific topics \u2014 from public health to civic engagement.",
+  "Education Program Designer": "Design educational programs from concept to implementation. More holistic than curriculum development \u2014 you think about the full learning experience, not just the content.",
+  "Training Specialist": "Deliver and facilitate training programs for staff, community members, or partner organizations. More facilitation-focused than design-focused. Your teaching experience is the direct qualification.",
+
+  // ===== BUILDER — Tech / Private =====
+  "Technical Program Manager": "Coordinate complex cross-team technical initiatives. You keep ambitious projects on track by managing dependencies, timelines, and stakeholder alignment. Less about code, more about organizational skill.",
+  "Program Manager": "Broader than TPM \u2014 you manage programs that may span multiple projects, teams, or business functions. The connective tissue that keeps large organizations moving forward.",
+  "Project Manager": "More tactical than program management \u2014 you own the plan, the timeline, the budget, and the deliverables for a specific initiative. A strong entry point for PhDs who want to prove operational skills quickly.",
+  "Operations Manager": "Design and improve the internal systems that keep a company functioning \u2014 workflows, processes, reporting structures. You make the machine run better.",
+  "Chief of Staff": "The CEO\u2019s or executive\u2019s right hand. You take ambiguous priorities and turn them into organized workstreams, run special projects, and ensure cross-functional alignment. A role that rewards exactly the kind of structured thinking a PhD develops.",
+  "Business Operations Analyst": "Analyze and optimize business processes using data and qualitative insight. More analytical than an operations manager, more operational than a strategy analyst. A good bridging role.",
+  "People Ops Manager": "Design and run the systems that shape the employee experience \u2014 onboarding, performance reviews, compensation, workplace culture. The operational backbone of HR.",
+  "Organizational Development Specialist": "Help companies navigate change \u2014 restructuring, culture shifts, new ways of working. You diagnose organizational problems and design interventions. Essentially applied social science.",
+  "Employee Engagement Lead": "Design and manage programs that improve employee satisfaction, belonging, and retention. You build the feedback loops and initiatives that keep people connected to their work.",
+
+  // ===== BUILDER — Social Impact / Public =====
+  "Program Manager (NGO)": "Design, implement, and oversee programs at nonprofits or foundations. You turn strategy into day-to-day operations and manage the people and processes that deliver results.",
+  "Program Director": "Senior leadership role overseeing multiple programs or a major initiative. You set direction, manage teams, and report to funders and boards. Where program managers execute, directors shape.",
+  "Program Officer": "Work at a foundation managing a portfolio of grants. You evaluate proposals, support grantees, and help shape funding strategy. A role that combines analytical rigor with relationship management.",
+  "Community Engagement Director": "Lead an organization\u2019s relationship with the communities it serves. You design outreach strategies, build trust, and ensure community voice shapes organizational decisions.",
+  "Partnerships Lead": "Build and manage relationships with partner organizations, funders, or government agencies. Your networking and relationship skills from academia \u2014 conferences, collaborations, co-authorship \u2014 transfer directly.",
+  "Outreach Manager": "Organize events, partnerships, and communications that connect an organization to its community. Often the most visible, public-facing role at a nonprofit or civic organization.",
+  "Operations Director": "Oversee the internal systems that keep a nonprofit running \u2014 finance, HR, IT, facilities, compliance. The person who makes sure the mission-driven work has a solid organizational foundation underneath it.",
+  "Capacity Building Consultant": "Help nonprofits strengthen their internal systems, processes, and leadership. You diagnose organizational challenges and design solutions \u2014 essentially consulting for the social sector.",
+  "Nonprofit Management": "A broad category covering leadership roles that blend program oversight, operations, fundraising, and stakeholder management. Where many PhDs in the social sector end up after a few years of experience.",
 };
 
 function renderResultCard(resultKey) {
@@ -836,13 +1006,11 @@ function renderResultCard(resultKey) {
   const ctx = canvas.getContext('2d');
   const result = RESULTS[resultKey];
 
-  // Sort scores for bars
   const sorted = Object.entries(scores)
     .map(([key, value]) => ({ key, value, title: RESULTS[key].title, emoji: RESULTS[key].emoji }))
     .sort((a, b) => b.value - a.value);
   const maxScore = Math.max(...sorted.map(s => s.value), 1);
 
-  // Canvas size (2x for retina)
   const W = 1080, H = 1080;
   canvas.width = W;
   canvas.height = H;
@@ -880,26 +1048,26 @@ function renderResultCard(resultKey) {
 
   // Emoji
   ctx.font = '88px serif';
-  ctx.fillText(result.emoji, 72, 280);
+  ctx.fillText(result.emoji, 72, 290);
 
   // Title
   ctx.fillStyle = '#1a1a1a';
   ctx.font = '400 80px "Instrument Serif", Georgia, serif';
-  ctx.fillText(result.title, 72, 380);
+  ctx.fillText(result.title, 72, 400);
 
   // Subtitle
   ctx.fillStyle = '#8B7355';
   ctx.font = 'italic 34px "Instrument Serif", Georgia, serif';
-  ctx.fillText(result.subtitle, 72, 435);
+  ctx.fillText(result.subtitle, 72, 460);
 
   // Score bars
-  const barStartY = 500;
+  const barStartY = 540;
   const barLeft = 72;
   const barRight = W - 72;
   const barMaxWidth = barRight - barLeft - 280;
 
   sorted.forEach((s, i) => {
-    const y = barStartY + i * 80;
+    const y = barStartY + i * 90;
     const isTop = i === 0;
 
     // Label
@@ -918,21 +1086,6 @@ function renderResultCard(resultKey) {
     ctx.fillStyle = isTop ? '#C4956A' : '#D9D0C3';
     roundRect(ctx, barLeft, trackY, fillWidth, 14, 7);
     ctx.fill();
-  });
-
-  // Paths section
-  const pathsY = barStartY + sorted.length * 80 + 30;
-  ctx.fillStyle = '#8B7355';
-  ctx.font = '600 24px "DM Sans", sans-serif';
-  ctx.letterSpacing = '3px';
-  ctx.fillText('YOUR PATHS', 72, pathsY);
-  ctx.letterSpacing = '0px';
-
-  result.paths.forEach((path, i) => {
-    const py = pathsY + 38 + i * 44;
-    ctx.fillStyle = '#1a1a1a';
-    ctx.font = '400 32px "Instrument Serif", Georgia, serif';
-    ctx.fillText(path.name, 72, py);
   });
 
   // Footer
@@ -971,7 +1124,7 @@ async function shareNative(resultKey) {
   const canvas = document.getElementById('result-card');
   const result = RESULTS[resultKey];
   const url = window.location.href;
-  const text = `I got "${result.title}" on this PhD Career Assessment — maps how humanities & social science PhDs think to career paths beyond academia. Try it yourself: ${url}`;
+  const text = `I got "${result.title}" on this PhD Career Assessment \u2014 maps how humanities & social science PhDs think to career paths beyond academia. Try it yourself: ${url}`;
   try {
     const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
     const file = new File([blob], 'phd-career-result.png', { type: 'image/png' });
@@ -984,7 +1137,6 @@ async function shareNative(resultKey) {
 function shareLinkedIn(resultKey) {
   const result = RESULTS[resultKey];
   const url = window.location.href;
-  const text = `I just took this PhD Career Assessment and got "${result.title}" \u2014 an assessment that maps how humanities & social science PhDs think and work to career paths beyond academia. Try it yourself:`;
   window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank');
 }
 
@@ -1003,7 +1155,6 @@ function copyLink() {
     btn.style.background = '#C4956A';
     setTimeout(() => { btn.innerHTML = original; btn.style.background = '#555'; }, 2000);
   }).catch(() => {
-    // Fallback: select text from a temporary input
     const input = document.createElement('input');
     input.value = window.location.href;
     document.body.appendChild(input);
@@ -1019,23 +1170,22 @@ function copyLink() {
 }
 
 function showRolePopup(role) {
-  // Remove existing popup
   const existing = document.querySelector('.role-popup');
   if (existing) existing.remove();
 
   const tip = ROLE_TIPS[role];
   if (!tip) return;
 
+  const displayName = getRoleDisplay(role);
   const popup = document.createElement('div');
   popup.className = 'role-popup';
   popup.innerHTML = `
     <button class="role-popup-close" onclick="this.parentElement.remove()">&times;</button>
-    <h4>${role}</h4>
+    <h4>${displayName}</h4>
     <p>${tip}</p>
   `;
   document.body.appendChild(popup);
 
-  // Close on outside click
   setTimeout(() => {
     document.addEventListener('click', function handler(e) {
       if (!popup.contains(e.target) && !e.target.classList.contains('pill')) {
